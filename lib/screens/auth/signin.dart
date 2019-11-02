@@ -61,6 +61,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(20.0),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -70,16 +71,17 @@ class _LoginState extends State<Login> {
               TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 controller: email,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(hintText: 'Email'),
               ),
               TextFormField(
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: true,
                 controller: pass,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(hintText: 'Password'),
               ),
               MaterialButton(
                 child: const Text('Login'),
+                elevation: 8.0,
                 onPressed: () => _login(context),
               ),
               Row(
