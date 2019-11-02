@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:301918934227:android:c91e166d5e6ef1a91cf026",
         "android_client_info": {
-          "package_name": "com.kaelkirk"
+          "package_name": "com.example.clothes_picker"
         }
       },
       "oauth_client": [
