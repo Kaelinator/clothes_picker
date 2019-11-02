@@ -4,7 +4,9 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Authenticate()
+      body: Center(
+        child: Authenticate()
+      )
     );
   }
 }
@@ -20,9 +22,27 @@ class _AuthenticateState extends State<Authenticate> {
   final pass = TextEditingController();
   final confirmPass = TextEditingController();
   final email = TextEditingController();
+  String errorText;
 
-  void _createAccount() {
-    print('TODO');
+  void _createAccount(BuildContext context) {
+    if (pass.text.length < 1 || pass.text != confirmPass.text || email.text.length < 1) {
+      /* bad input */
+      setState(() {
+        errorText = 'incomplete form';
+      });
+      return; // no no
+    }
+
+    setState(() {
+      errorText = null;
+    });
+  }
+
+  Widget _showError() {
+    if (errorText == null)
+      return Container();
+
+    return Text('$errorText', style: TextStyle(color: Colors.redAccent, fontSize: 20));
   }
 
   @override
@@ -33,6 +53,7 @@ class _AuthenticateState extends State<Authenticate> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              _showError(),
               TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 controller: email,
@@ -52,7 +73,7 @@ class _AuthenticateState extends State<Authenticate> {
               ),
               MaterialButton(
                 child: const Text('Create Account'),
-                onPressed: _createAccount,
+                onPressed: () => _createAccount(context),
               )
             ],
           )
