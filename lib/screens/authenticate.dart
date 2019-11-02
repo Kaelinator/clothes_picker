@@ -32,10 +32,10 @@ class _AuthHandlerState extends State<AuthHandler> {
       loggedIn = (user == null);
     });
 
-    if (loggedIn) {
-      Navigator.pushNamed(context, '/home');
-    } else {
+    if (user == null) {
       Navigator.pushNamed(context, '/login');
+    } else {
+      Navigator.pushNamed(context, '/home');
     }
   }
 
