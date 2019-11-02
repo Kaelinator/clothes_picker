@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import './screens/authenticate.dart';
+import './screens/login.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +11,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => AuthScreen()
+        '/': (context) => LoginScreen(),
+        '/signup': (context) => LoginScreen()
       }
     );
   }
