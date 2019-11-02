@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -37,9 +37,11 @@ class _LoginState extends State<Login> {
       errorText = null;
     });
 
-      FirebaseAuth.instance
+    FirebaseAuth.instance
       .signInWithEmailAndPassword(email: email.text, password: pass.text)
-      .then((user) => print('logged in!'))
+      .then((AuthResult result) {
+        print('logged in ${result.user.uid}');
+      })
       .catchError((dynamic err) {
         print('Failed to login: ${err.message}');
         setState(() {
