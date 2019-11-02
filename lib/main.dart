@@ -1,18 +1,21 @@
+import 'package:clothes_picker/screens/home.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import './screens/authenticate.dart';
+import './screens/auth/authenticate.dart';
+import './screens/auth/signin.dart';
+import './screens/auth/signup.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => AuthScreen()
+        '/': (context) => Authenticate(),
+        '/signin': (context) => SigninScreen(),
+        '/signup': (context) => SignupScreen(),
+        '/home': (context) => HomeScreen()
       }
     );
   }
