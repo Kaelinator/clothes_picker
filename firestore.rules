@@ -6,5 +6,10 @@ service cloud.firestore {
       allow update: if request.resource.data.isAdmin == resource.data.isAdmin;
       allow create: if !exists(/databases/$(database)/documents/users/$(request.auth.uid)) && request.resource.data.isAdmin == false;
     }
+
+    match /articles/{articleId} {
+      allow read: if true;
+      allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin;
+    }
   }
 }
