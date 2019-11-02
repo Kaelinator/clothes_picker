@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,14 +49,19 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+    FirebaseAuth.instance
+      // .signInWithEmailAndPassword(email: email.text, password: pass.text)
+      .signInWithEmailAndPassword(email: "bevo@longhorn.edu", password: "password")
+      .then((user) => print('logged in!'))
+      .catchError((dynamic err) {
+        print('Failed to login: ${err.message}');
+        setState(() {
+          _counter++;
+        });
+        // setState(() {
+        //   errorMsg = '${err.message}';
+        // });
+      });
   }
 
   @override

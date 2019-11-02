@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "301918934227",
+    "firebase_url": "https://clothes-picker-12120.firebaseio.com",
+    "project_id": "clothes-picker-12120",
+    "storage_bucket": "clothes-picker-12120.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301918934227:android:c91e166d5e6ef1a91cf026",
+        "android_client_info": {
+          "package_name": "com.example.clothes_picker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "301918934227-vpuurqm4nb7m3hp1to9b368hflqs4fqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdJZ6HM3PMVK5rPfYjgSPRiHEoEH9dr-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "301918934227-vpuurqm4nb7m3hp1to9b368hflqs4fqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
