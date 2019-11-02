@@ -60,42 +60,81 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(20.0),
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              _showError(),
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                controller: email,
-                decoration: InputDecoration(hintText: 'Email'),
-              ),
-              TextFormField(
-                keyboardType: TextInputType.visiblePassword,
-                obscureText: true,
-                controller: pass,
-                decoration: InputDecoration(hintText: 'Password'),
-              ),
-              MaterialButton(
-                child: const Text('Login'),
-                elevation: 8.0,
-                onPressed: () => _login(context),
-              ),
-              Row(
+    return new Scaffold(  
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomPadding: true,
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 60.0),
+              child: Column(
                 children: <Widget>[
-                  const Text('Dont\' have an account?'),
-                  MaterialButton(
-                    child: const Text('Create Account'),
-                    onPressed: () => Navigator.pushNamed(context, '/signup'),
+                    Container(
+                      width: double.infinity,
+                      height: 500,
+                      
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(0.0, 15.0),
+                            blurRadius: 15.0
+                          ),
+                           BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(0.0, -10.0),
+                            blurRadius: 15.0
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                        child: Column(
+                          children: <Widget>[
+                            Text("Login",
+                              style: TextStyle(
+                                  fontSize: 45,
+                                  fontFamily: "Poppins-Medium",
+                              letterSpacing: .6)
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              controller: email,
+                              decoration: InputDecoration(hintText: 'Email'),
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.visiblePassword,
+                              obscureText: true,
+                              controller: pass,
+                              decoration: InputDecoration(hintText: 'Password'),
+                            ),
+                            MaterialButton(
+                              child: const Text('Login'),
+                              elevation: 8.0,
+                              onPressed: () => _login(context),
+                            ),
+                            Row(
+                              children: <Widget>[
+                                const Text('Dont\' have an account?'),
+                                MaterialButton(
+                                  child: const Text('Create Account'),
+                                  onPressed: () => Navigator.pushNamed(context, '/signup'),
+                                )
+                              ],
+                            )
+                          ],
+                        )
+                      )
                   )
                 ],
-              )
-            ],
-          )
-        )
+              ),
+            ),
+          ),
+        ],
       )
     );
   }
