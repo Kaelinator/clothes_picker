@@ -48,6 +48,7 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(20.0),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
