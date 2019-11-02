@@ -1,8 +1,8 @@
 import 'package:clothes_picker/screens/home.dart';
 import 'package:flutter/material.dart';
-import './screens/authenticate.dart';
-import './screens/login.dart';
-import './screens/signup.dart';
+import './screens/auth/authenticate.dart';
+import './screens/auth/signin.dart';
+import './screens/auth/signup.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => Authenticate(),
-        '/login': (context) => LoginScreen(),
+        '/signin': (context) => SigninScreen(),
         '/signup': (context) => SignupScreen(),
         '/home': (context) => HomeScreen()
       }
