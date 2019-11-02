@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+class UserArguments {
+  final FirebaseUser user;
+
+  UserArguments(this.user);
+}
+
 class Authenticate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,7 +21,7 @@ class AuthHandler extends StatefulWidget {
 
 class _AuthHandlerState extends State<AuthHandler> {
 
-  bool loggedIn = false;
+  FirebaseUser user;
 
   @override
   void initState() {
@@ -29,13 +35,13 @@ class _AuthHandlerState extends State<AuthHandler> {
 
   void _handleAuth(FirebaseUser user) {
     setState(() {
-      loggedIn = (user == null);
+      this.user = user;
     });
 
     if (user == null) {
       Navigator.pushNamed(context, '/signin');
     } else {
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, '/home', arguments: UserArguments(user));
     }
   }
 
