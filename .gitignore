@@ -1,10 +1,8 @@
 # Miscellaneous
 *.class
-*.lock
 *.log
 *.pyc
 *.swp
-*.bin
 .DS_Store
 .atom/
 .buildlog/
@@ -42,7 +40,6 @@ version
 # Flutter/Dart/Pub related
 **/doc/api/
 .dart_tool/
-.flutter-plugins
 .packages
 .pub-cache/
 .pub/
