@@ -4,7 +4,7 @@ service cloud.firestore {
     match /users/{userId} {
       allow read, update, delete: if request.auth.uid == userId;
       allow update: if request.resource.data.isAdmin == resource.data.isAdmin;
-      allow create: if !exists(/databases/$(database)/documents/users/$(request.auth.uid));
+      allow create: if !exists(/databases/$(database)/documents/users/$(request.auth.uid)) && request.resource.data.isAdmin == false;
     }
   }
 }

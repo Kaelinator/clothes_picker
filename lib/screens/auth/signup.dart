@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignupScreen extends StatelessWidget {
   @override
@@ -42,10 +43,15 @@ class _SignupState extends State<Signup> {
       email: email.text,
       password: pass.text
     ).then((AuthResult result) {
-      // TODO: add user to users collection
       FirebaseUser user = result.user;
       print('Created user ${user.uid}');
+      return Firestore.instance.collection('users')
+        .document(user.uid)
+        .setData({
+          'isAdmin': false
+        });
     })
+    .then((_) => print('created new user in users'))
     .catchError((dynamic err) {
       setState(() {
         errorText = err.message;
