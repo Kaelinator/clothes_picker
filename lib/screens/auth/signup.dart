@@ -37,6 +37,20 @@ class _SignupState extends State<Signup> {
     setState(() {
       errorText = null;
     });
+
+    FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: email.text,
+      password: pass.text
+    ).then((AuthResult result) {
+      // TODO: add user to users collection
+      FirebaseUser user = result.user;
+      print('Created user ${user.uid}');
+    })
+    .catchError((dynamic err) {
+      setState(() {
+        errorText = err.message;
+      });
+    });
   }
 
   Widget _showError() {
