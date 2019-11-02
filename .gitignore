@@ -3,6 +3,8 @@
 *.log
 *.pyc
 *.swp
+*.lock
+*.bin
 .DS_Store
 .atom/
 .buildlog/
@@ -41,6 +43,7 @@ version
 **/doc/api/
 .dart_tool/
 .packages
+.flutter-plugins
 .pub-cache/
 .pub/
 build/
