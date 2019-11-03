@@ -4,6 +4,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+Future<List<Future<Map<String, dynamic>>>> getUserArticles(Future<DocumentReference> user) {
+  return user
+    .then((DocumentReference u) => 
+      u.get().then((DocumentSnapshot snap) {
+        List<Future<Map<String, dynamic>>> list = [];
+        if (snap.data == null || snap.data['articles'] == null)
+          return list;
+        snap.data['articles'].forEach((dynamic key, dynamic value) {
+          list.add(Firestore.instance.collection('articles')
+            .document(key)
+            .get()
+            .then((DocumentSnapshot article) {
+              return { 'article': article.data, 'key': key, 'count': value };
+            })
+          );
+        });
+        return list;
+      }
+    ));
+}
 
 class ViewArticlesScreen extends StatefulWidget {
 
@@ -28,26 +48,14 @@ class _ViewArticlesScreenState extends State<ViewArticlesScreen> {
       _articles = [];
     });
     
-    _args.getUser()
-      .then((DocumentReference user) => 
-        user.get().then((DocumentSnapshot snap) {
-          List<Future<Map<String, dynamic>>> list = [];
-          snap.data['articles'].forEach((dynamic key, dynamic value) {
-            list.add(Firestore.instance.collection('articles')
-              .document(key)
-              .get()
-              .then((DocumentSnapshot snap) {
-                // if(snap.data['type'] == _args.type) {
-                return { 'article': snap.data, 'count': value };
-              })
-              );
-            });
-          setState(() {
-            _articles = list;
-          });
-        }
-      ))
-    .catchError((err) => print('Failed, ${err.message}'));
+    getUserArticles(_args.getUser())
+      .then((List<Future<Map<String, dynamic>>> list) {
+        setState(() {
+          _articles = list;
+        });
+      })
+      .catchError((err) => print('Failed to get user articles, ${err.message}'));
+
     super.initState();
   }
 
@@ -83,7 +91,7 @@ class _ViewArticlesScreenState extends State<ViewArticlesScreen> {
                         future: _articles[i],
                         builder: (ctxt, snapshot) {
                           if (snapshot.connectionState == ConnectionState.done ) {
-                            if(snapshot.data['article']['type'] != _args.type)
+                            if (snapshot.data['article']['type'] != _args.type)
                               return Container();
                               return ListTile(
                                 leading: CircleAvatar(

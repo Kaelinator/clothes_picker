@@ -15,9 +15,9 @@ class ArticleArguments {
   Future<DocumentReference> getUser() {
     if (_user == null) {
       Future<DocumentReference> user = FirebaseAuth.instance.currentUser()
-      .then((FirebaseUser user) => Firestore.instance
-        .collection('users')
-        .document(user.uid));
+        .then((FirebaseUser user) => Firestore.instance
+          .collection('users')
+          .document(user.uid));
       return user;
     }
     return _user;
@@ -61,12 +61,12 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
     });
   }
 
-  void _addToWardrobe(String documentID) {
-    _args.getUser()
+  Future<dynamic> _addToWardrobe(String documentID) {
+    return _args.getUser()
       .then((DocumentReference user) => user.setData({
         'articles': { '$documentID': FieldValue.increment(1) }
       }, merge: true))
-    .catchError((err) => print('Failed to add article, ${err.message}'));
+      .catchError((err) => print('Failed to add article, ${err.message}'));
   }
 
   @override
@@ -79,15 +79,6 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
       appBar: AppBar(
         title: Text(_args.type)
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(
-          context, 
-          '/add-article', 
-          arguments: ArticleArguments(_args.type)
-        ),
-        child: Icon(Icons.add)
-      ),
-
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
@@ -112,13 +103,11 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
                             shrinkWrap: true,
                             children: snapshot.data.documents.map((DocumentSnapshot document) {
                               return ListTile(
-                                onTap: () => {
-                                  _addToWardrobe(document.documentID),
-                                  showDialog(
-                                    context: context, 
-                                    builder: (_) => FunkyOverlay("Added " + document.data['name'])
-                                  ),
-                                  print(document.data)
+                                onTap: () {
+                                  _addToWardrobe(document.documentID)
+                                    .then((_) => showDialog(
+                                      context: context, 
+                                      builder: (_) => FunkyOverlay("Added " + document.data['name'])));
                                 },
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(document["imageUrl"]) != null ? 

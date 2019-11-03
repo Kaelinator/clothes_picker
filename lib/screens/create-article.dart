@@ -16,9 +16,9 @@ const List<String> CLOTHING_TYPES = <String>[
 ];
 
 const List<String> WARMTH_TYPES = <String>[
-  'A',
-  'B',
-  'C'
+  'Hot',
+  'Medium',
+  'Not'
 ];
 
 class CreateArticleScreen extends StatelessWidget {
