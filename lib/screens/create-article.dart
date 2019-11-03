@@ -91,6 +91,7 @@ class _CreateArticleState extends State<CreateArticle> {
       })
       .then((_) {
         print('created article of clothing');
+        Navigator.pop(context);
       })
       .catchError((error) {
         print('Failed to create article of clothing: ${error.message}');
@@ -182,7 +183,7 @@ class _CreateArticleState extends State<CreateArticle> {
                 children: <Widget>[
                   const Text('Warmth:'),
                   DropdownButton<String>(
-                    value: _type,
+                    value: _warmth,
                     items: WARMTH_TYPES.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
