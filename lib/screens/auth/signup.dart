@@ -29,7 +29,8 @@ class _SignupState extends State<Signup> {
   String errorText;
 
   void _createAccount(BuildContext context) {
-    if (_pass.text.length < 1 || _pass.text != _confirmPass.text || _email.text.length < 1) {
+    if (_pass.text.length < 1 || _pass.text != _confirmPass.text
+    || _email.text.length < 1 || _displayName.text.length < 1) {
       /* bad input */
       setState(() {
         errorText = 'incomplete form';
@@ -95,7 +96,7 @@ class _SignupState extends State<Signup> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: ScreenUtil.getInstance().setHeight(600),
+                    height: ScreenUtil.getInstance().setHeight(800 + (errorText == null ? 0.0 : 50.0)),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
@@ -123,6 +124,7 @@ class _SignupState extends State<Signup> {
                                 fontFamily: "Poppins-Bold",
                             letterSpacing: .6)
                           ),
+                          _showError(),
                           Text("Display Name",
                             style: TextStyle(
                                 fontFamily: "Poppins-Medium",
@@ -210,7 +212,7 @@ class _SignupState extends State<Signup> {
                             child: InkWell(
                               onTap: () => Navigator.pushNamed(context, '/signin'),
                               child: Center(
-                                child: Text("Login",
+                                child: Text("Back to Login",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: "Poppins-Bold",

@@ -25,6 +25,18 @@ class _ProfileViewState extends State<ProfileView> {
 
   FirebaseUser _user;
   _ProfileViewState(this._user);
+
+  @override
+  void initState() {
+    FirebaseAuth.instance.currentUser()
+      .then((FirebaseUser user) {
+        setState(() {
+          _user = user;
+        });
+      })
+      .catchError((err) => print('error loading user, ${err.message}'));
+    super.initState();
+  }
   
   void _signOut() {
     FirebaseAuth.instance.signOut()
