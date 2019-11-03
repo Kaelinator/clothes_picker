@@ -6,8 +6,6 @@ import './tabs/profile.dart';
 import './tabs/recommendPage.dart';
 
 class HomeScreen extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
 

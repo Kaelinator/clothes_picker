@@ -30,30 +30,27 @@ class ProfileView extends StatelessWidget {
       child: Column(
         children: <Widget>[
           SizedBox(height: 50),
-          _buildProfileImage(),
-          _buildFullName()
+          _profileImage(),
+          Text(
+            _fullName,
+            style: getTextStyle(),
+          )
         ],
       )
     );
   }
 
-  Widget _buildProfileImage() {
+  Widget _profileImage() {
     return Center(
-      child: _imageButton( (){print("change image");}, 140.0, 140.0, NetworkImage("https://s.hdnux.com/photos/52/31/41/11114611/5/920x920.jpg")),
-    );
-  }
-
-  Widget _imageButton(Function _onClick, double width, double height, ImageProvider<dynamic> image){
-    return RawMaterialButton(
-      child: new InkWell(// this is the one you are looking for..........
-        onTap: _onClick,
+      child: InkWell(
+        onTap: () => print("change profile image"),
         child: new Container(
-          width: width,
-          height: height,
-          padding: const EdgeInsets.all(20.0),//I used some padding without fixed width and height
+          width: 140,
+          height: 140,
+          padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             image: DecorationImage(
-              image:  image,
+              image:  NetworkImage("https://s.hdnux.com/photos/52/31/41/11114611/5/920x920.jpg"),
               fit: BoxFit.cover,
             ),
             shape: BoxShape.circle,
@@ -64,29 +61,6 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildFullName() {
-    TextStyle _nameTextStyle = TextStyle(
-      fontFamily: 'Roboto',
-      color: Colors.black,
-      fontSize: 28.0,
-      fontWeight: FontWeight.w700,
-    );
-
-    return Text(
-      _fullName,
-      style: _nameTextStyle,
-    );
-  }
-
-  Widget _buildStatus(BuildContext context) {
-    return Container(
-      //padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(4.0),
-      ),
-    );
-  }
 
   Widget _buildStatItem(String label, String count) {
 
@@ -129,43 +103,12 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildBio(BuildContext context) {
-    TextStyle bioTextStyle = TextStyle(
-      fontFamily: 'Spectral',
-      fontWeight: FontWeight.w400,//try changing weight to w500 if not thin
-      fontStyle: FontStyle.italic,
-      color: Color(0xFF799497),
-      fontSize: 16.0,
-    );
-
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        _bio,
-        textAlign: TextAlign.center,
-        style: bioTextStyle,
-      ),
-    );
-  }
 
   Widget _buildSeparator(Size screenSize) {
     return Container(
       width: screenSize.width,
       height: 2.0,
       color: getTextColor(),
-      //margin: EdgeInsets.only(top: 4.0),
-    );
-  }
-
-  Widget _buildGetInTouch(BuildContext context) {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      padding: EdgeInsets.only(top: 8.0),
-      child: Text(
-        "Get in Touch with ${_fullName.split(" ")[0]},",
-        style: TextStyle(fontFamily: 'Roboto', fontSize: 16.0),
-      ),
     );
   }
 
@@ -212,15 +155,17 @@ class ProfileView extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   _buildCoverImage(screenSize),
-                  _buildStatus(context),
                   _buildStatContainer(),
                   _buildSeparator(screenSize),
                   SizedBox(height: 8.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text("Wardrobe", style: getTextStyle()),    
-                      _imageButton( (){print("add article");}, 30.0, 30.0, NetworkImage("http://pngimages.net/sites/default/files/plus-png-image-59147.png"))
+                      Text("Wardrobe", style: getTextStyle()),
+                      InkWell(
+                        onTap: () => print("add article"),
+                        child: Icon(Icons.add_circle),
+                      ),    
                     ],
                   ),
                   SizedBox(height: 4.0),
