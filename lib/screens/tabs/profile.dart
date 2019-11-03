@@ -130,7 +130,9 @@ class _ProfileViewState extends State<ProfileView> {
           padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             image: DecorationImage(
-              image:  NetworkImage("https://s.hdnux.com/photos/52/31/41/11114611/5/920x920.jpg"),
+              image: _user.photoUrl != null
+                ? NetworkImage(_user.photoUrl)
+                : NetworkImage('https://unmibsg.com/wp-content/uploads/bb-plugin/cache/no-user2-circle.jpg'),
               fit: BoxFit.cover,
             ),
             shape: BoxShape.circle,
