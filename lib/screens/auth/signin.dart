@@ -21,46 +21,47 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   final _formKey = GlobalKey<FormState>();
-  final pass = TextEditingController();
-  final email = TextEditingController();
-  String errorText;
+  final _password = TextEditingController();
+  final _email = TextEditingController();
+  String _errorText;
 
   void _login(BuildContext context) {
-    if (pass.text.length < 1 || email.text.length < 1) {
+    if (_password.text.length < 1 || _email.text.length < 1) {
       /* bad input */
       setState(() {
-        errorText = 'incomplete form';
+        _errorText = 'incomplete form';
       });
       return; // no no
     }
 
     setState(() {
-      errorText = null;
+      _errorText = null;
     });
 
     FirebaseAuth.instance
-      .signInWithEmailAndPassword(email: email.text, password: pass.text)
+      .signInWithEmailAndPassword(email: _email.text, password: _password.text)
       .then((AuthResult result) {
         print('logged in ${result.user.uid}');
       })
       .catchError((dynamic err) {
         print('Failed to login: ${err.message}');
         setState(() {
-          errorText = '${err.message}';
+          _errorText = '${err.message}';
         });
       });
 
   }
 
   Widget _showError() {
-    if (errorText == null)
+    if (_errorText == null)
       return Container();
 
-    return Text('$errorText', style: TextStyle(color: Colors.redAccent, fontSize: 20));
+    return Text('$_errorText', style: TextStyle(color: Colors.redAccent, fontSize: 20));
   }
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
@@ -74,6 +75,31 @@ class _LoginState extends State<Login> {
             child: Padding(
               padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 60.0),
               child: Column(
+=======
+    return Container(
+      child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              _showError(),
+              TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                controller: _email,
+                decoration: InputDecoration(labelText: 'Email'),
+              ),
+              TextFormField(
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
+                controller: _password,
+                decoration: InputDecoration(labelText: 'Password'),
+              ),
+              MaterialButton(
+                child: const Text('Login'),
+                onPressed: () => _login(context),
+              ),
+              Row(
+>>>>>>> aeff5ef9ce883fb7311538d7e53ea1ee9f41531b
                 children: <Widget>[
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(200),
