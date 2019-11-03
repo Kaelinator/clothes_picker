@@ -114,7 +114,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
                                 _addToWardrobe(document.documentID),
                                 },
                                 leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(document["imageUrl"]) == null ? 
+                                  backgroundImage: NetworkImage(document["imageUrl"]) != null ? 
                                   NetworkImage(document["imageUrl"]) : 
                                   NetworkImage("https://www.iconsdb.com/icons/preview/black/square-xxl.png")
                                 ),
