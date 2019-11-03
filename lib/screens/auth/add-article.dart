@@ -29,22 +29,6 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
           .map((word) => articlesRef.where('keywords', arrayContains: word).snapshots())
       );
     });
-
-
-    // ConcatStream(
-    //   text.toLowerCase()
-    //     .split(' ')
-    //     .map((word) => articlesRef.where('keywords', arrayContains: word).snapshots())
-    // ).toSet()
-    //   .then((Set<QuerySnapshot> unique) {
-    //     print('THERE ARE ${unique.length} ARTICLES');
-    //     setState(() {
-    //       _articles = Stream.fromIterable(unique);
-    //     });
-    //   })
-    //   .catchError((err) {
-    //     print('Failed to query, ${err.message}');
-    //   });
   }
 
   @override
