@@ -101,7 +101,13 @@ class _SignupState extends State<Signup> {
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(200),
+                    height: ScreenUtil.getInstance().setHeight(50),
+                  ),
+                  Container(
+                    child: Image.asset('assets/logo.png', fit: BoxFit.cover),
+                  ),
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(25),
                   ),
                   Container(
                     width: double.infinity,
@@ -207,8 +213,8 @@ class _SignupState extends State<Signup> {
                           height: ScreenUtil.getInstance().setHeight(100),
                           decoration: BoxDecoration(
                               gradient: LinearGradient(colors: [
-                                Color(0xFF17ead9),
-                                Color(0xFF6078ea)
+                                Color(0xFFFF0000),
+                                Color(0xFFA13D2D)
                               ]),
                               borderRadius: BorderRadius.circular(6.0),
                               boxShadow: [
@@ -241,9 +247,9 @@ class _SignupState extends State<Signup> {
                           height: ScreenUtil.getInstance().setHeight(100),
                           decoration: BoxDecoration(
                               gradient: LinearGradient(colors: [
-                                Color(0xFF17ead9),
-                                Color(0xFF6078ea)
-                              ]),
+                              Color(0xFFFF0000),
+                              Color(0xFFA13D2D)
+                            ]),
                               borderRadius: BorderRadius.circular(6.0),
                               boxShadow: [
                                 BoxShadow(

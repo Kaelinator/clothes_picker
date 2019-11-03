@@ -294,8 +294,8 @@ class _ProfileViewState extends State<ProfileView> {
                       height: ScreenUtil.getInstance().setHeight(100),
                       decoration: BoxDecoration(
                           gradient: LinearGradient(colors: [
-                            Color(0xFFFF0000),
-                            Color(0xFFA13D2D)
+                            Color(0xFF17ead9),
+                            Color(0xFF6078ea)
                           ]),
                           borderRadius: BorderRadius.circular(6.0),
                           boxShadow: [
@@ -319,6 +319,9 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(30),
                   ),
                   _buildButtons(),
                 ],
@@ -357,16 +360,16 @@ class CategoryName extends StatelessWidget {
       child: Column(
         children: <Widget>[
           SizedBox(
-              height: ScreenUtil.getInstance().setHeight(60),
-            ),
+            height: ScreenUtil.getInstance().setHeight(60),
+          ),
           InkWell(
             child: Container(
               width: ScreenUtil.getInstance().setWidth(600),
               height: ScreenUtil.getInstance().setHeight(100),
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                    Color(0xFF17ead9),
-                    Color(0xFF6078ea)
+                    Color(0xFFFF0000),
+                    Color(0xFFA13D2D)
                   ]),
                   borderRadius: BorderRadius.circular(6.0),
                   boxShadow: [
