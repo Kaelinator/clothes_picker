@@ -8,11 +8,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 const List<String> CLOTHING_TYPES = <String>[
-  'Hats',
-  'Tops',
-  'Bottoms',
+  'Hat',
+  'Top',
+  'Bottom',
   'Shoes',
-  'Accessories',
+  'Accessory',
 ];
 
 const List<String> WARMTH_TYPES = <String>[
