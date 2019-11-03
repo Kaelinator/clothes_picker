@@ -7,11 +7,6 @@ import './tabs/recommendPage.dart';
 
 class HomeScreen extends StatelessWidget {
 
-  void _signOut() {
-    FirebaseAuth.instance.signOut()
-      .then((data) => print('signed out'))
-      .catchError((err) => print('${err.message}'));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +18,19 @@ class HomeScreen extends StatelessWidget {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: _getBackgroundColor(),
+            backgroundColor: getBackgroundColor(),
             bottom: TabBar(
               tabs: [
-                Tab(icon: Icon(Icons.home, color: _getTextColor(),)),
-                Tab(icon: Icon(Icons.create, color: _getTextColor())),
-                Tab(icon: Icon(Icons.person, color: _getTextColor())),
+                Tab(icon: Icon(Icons.home, color: getTextColor(),)),
+                Tab(icon: Icon(Icons.create, color: getTextColor())),
+                Tab(icon: Icon(Icons.person, color: getTextColor())),
               ],
             ),
-            title: Center(child: Text('CloutFit', style: TextStyle(color: _getTextColor()))),
+            title: Center(child: Text('CloutFit', style: TextStyle(color: getTextColor()))),
             automaticallyImplyLeading: false,
           ),
           body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             children: [
               RecommendPage(),
               FitCreaterView(),
@@ -46,10 +42,10 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-Color _getTextColor(){
+Color getTextColor(){
   return Color.fromARGB(255, 29, 39, 64);
 }
 
-Color _getBackgroundColor(){
+Color getBackgroundColor(){
   return Color.fromARGB(255, 248, 249, 253);
 }

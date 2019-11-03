@@ -1,8 +1,9 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 const List<String> CLOTHING_TYPES = <String>[
   'A',
@@ -37,10 +38,17 @@ class _CreateArticleState extends State<CreateArticle> {
   final _formKey = GlobalKey<FormState>();
   final _name = TextEditingController();
   bool _isRainFriendly = false;
+  bool _isUploadingImage = false;
   String _type;
   String _warmth;
   String _errorText;
-  File _image;
+  String _imageUrl;
+  String _imageName;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void _setType(String type) {
     setState(() {
@@ -75,7 +83,7 @@ class _CreateArticleState extends State<CreateArticle> {
     Firestore.instance.collection('articles')
       .document()
       .setData({
-        // 'image': ,
+        'imageUrl': _imageUrl,
         'name': _name.text,
         'type': _type,
         'warmth': _warmth,
@@ -83,6 +91,7 @@ class _CreateArticleState extends State<CreateArticle> {
       })
       .then((_) {
         print('created article of clothing');
+        Navigator.pop(context);
       })
       .catchError((error) {
         print('Failed to create article of clothing: ${error.message}');
@@ -99,13 +108,41 @@ class _CreateArticleState extends State<CreateArticle> {
     return Text('$_errorText', style: TextStyle(color: Colors.redAccent, fontSize: 20));
   }
 
-  void _addImage() {
+  void _setImage() {
+    StorageReference articleRef = FirebaseStorage.instance.ref().child('articles');
+
+    if (_imageUrl != null) {
+      // remove previous image
+      articleRef.child(_imageName)
+        .delete()
+        .then((_) => print('deleted old image'))
+        .catchError((err) => print('Failed to delete image: ${err.message}'));
+    }
     
     ImagePicker.pickImage(source: ImageSource.gallery)
       .then((File image) {
         setState(() {
-          _image = image;
+          _isUploadingImage = true;
         });
+
+        String filename = Uuid().v4();
+
+        articleRef
+          .child(filename)
+          .putFile(image)
+          .onComplete
+          .then((StorageTaskSnapshot snapshot) {
+            print('Uploading: $filename');
+            snapshot.ref.getDownloadURL()
+              .then((dynamic url) {
+                print('URL: $url');
+                setState(() {
+                  _imageUrl = url;
+                  _imageName = filename;
+                  _isUploadingImage = false;
+                });
+              });
+          });
       });
   }
 
@@ -122,8 +159,10 @@ class _CreateArticleState extends State<CreateArticle> {
                 decoration: InputDecoration(labelText: 'Name')
               ),
               MaterialButton(
-                child: Text('${_image == null ? 'Add' : 'Change' } photo'),
-                onPressed: _addImage,
+                child: Text(
+                  '${_isUploadingImage ? 'Uploading' : (_imageName == null) ? 'Add' : 'Change'} image'
+                  ),
+                onPressed: _setImage,
               ),
               Row(
                 children: <Widget>[
@@ -144,7 +183,7 @@ class _CreateArticleState extends State<CreateArticle> {
                 children: <Widget>[
                   const Text('Warmth:'),
                   DropdownButton<String>(
-                    value: _type,
+                    value: _warmth,
                     items: WARMTH_TYPES.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
