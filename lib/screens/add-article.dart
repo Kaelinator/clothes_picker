@@ -53,7 +53,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
         .collection('users')
         .document(user.uid)
         .setData({
-          'cleanArticles': { 'id': documentID, 'count': FieldValue.increment(1) }
+          'articles': { 'id': documentID, 'count': FieldValue.increment(1) }
         }, merge: true))
       .catchError((err) => print('Failed to add article, ${err.message}'));
   }

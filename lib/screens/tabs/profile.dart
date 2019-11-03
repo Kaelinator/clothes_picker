@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:clothes_picker/screens/auth/add-article.dart';
+import 'package:clothes_picker/screens/add-article.dart';
 import 'package:clothes_picker/screens/create-article.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';

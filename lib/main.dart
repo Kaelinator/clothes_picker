@@ -1,4 +1,4 @@
-import 'package:clothes_picker/screens/auth/add-article.dart';
+import 'package:clothes_picker/screens/add-article.dart';
 import 'package:clothes_picker/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
