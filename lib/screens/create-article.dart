@@ -187,29 +187,27 @@ class _CreateArticleState extends State<CreateArticle> {
                       height: ScreenUtil.getInstance().setHeight(100),
                       decoration: BoxDecoration(
                           gradient: LinearGradient(colors: [
-                            Color(0xFF17ead9),
-                            Color(0xFF6078ea)
-                          ]),                          borderRadius: BorderRadius.circular(6.0),
+                            Color(0xFFFF0000),
+                            Color(0xFFA13D2D)
+                          ]),        
+                          borderRadius: BorderRadius.circular(6.0),
                           boxShadow: [
                             BoxShadow(
                                 color: Color(0xFF6078ea).withOpacity(.3),
                                 offset: Offset(0.0, 8.0),
                                 blurRadius: 8.0)
                           ]),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () => _setImage,
-                          child: Center(
-                            child: Text('${_isUploadingImage ? 'Uploading' : (_imageName == null) ? 'Add' : 'Change'} image',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: "Poppins-Bold",
-                                    fontSize: 18,
-                                    letterSpacing: 1.0)),
+                      child:MaterialButton(
+                        child: Text(
+                          '${_isUploadingImage ? 'Uploading' : (_imageName == null) ? 'Add' : 'Change'} image',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Poppins-Bold",
+                            fontSize: 14,
+                            letterSpacing: 1.0)
                           ),
-                        ),
-                      ),
+                        onPressed: _setImage,
+                      ),  
                     ),
                   ),
                   Row(
@@ -278,8 +276,8 @@ class _CreateArticleState extends State<CreateArticle> {
                       height: ScreenUtil.getInstance().setHeight(100),
                       decoration: BoxDecoration(
                           gradient: LinearGradient(colors: [
-                            Color(0xFF17ead9),
-                            Color(0xFF6078ea)
+                            Color(0xFFFF0000),
+                            Color(0xFFA13D2D)
                           ]),
                           borderRadius: BorderRadius.circular(6.0),
                           boxShadow: [
