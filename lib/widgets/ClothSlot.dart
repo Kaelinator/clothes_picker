@@ -4,27 +4,34 @@ import 'package:flutter/material.dart';
 
 class ClothSlot extends StatefulWidget {
 
-  final Article _article;
+  Article article;
 
-  const ClothSlot(this._article);
+  ClothSlot(this.article);
 
   @override
-  _ClothSlotState createState() => _ClothSlotState(_article);
+  _ClothSlotState createState() => _ClothSlotState(article);
 }
 
 class _ClothSlotState extends State<ClothSlot> {
 
-  final Article _article;
+  Article _article;
 
-  _ClothSlotState(this._article);
+  _ClothSlotState(this._article); 
 
-  void update(){
+  Future<void> update() async {
     print("Pressed: " + _article.name);
-    Navigator.pushNamed(
+    final result = await Navigator.pushNamed(
       context, 
-      '/view-article', 
-      arguments: ArticleArguments(_article.type)
+      '/add-custom-article', 
+      arguments: ArticleArguments(_article.type),
     );
+
+    setState(() {
+      _article = Article(result.toString().split(";")[0], result.toString().split(";")[1], NetworkImage(result.toString().split(";")[2]));
+    });
+ 
+
+    print(result);
   }
 
   @override
@@ -35,7 +42,7 @@ class _ClothSlotState extends State<ClothSlot> {
         onTap: update,
         child: Container(
           child: Center(
-            child: Column(
+            child: Column(  
               children: <Widget>[
                 Text(_article.type, style: TextStyle(fontSize: 20),),
                 SizedBox(height: 15),
@@ -60,7 +67,7 @@ class _ClothSlotState extends State<ClothSlot> {
               color: Colors.black12,
               offset: Offset(0.0, 15.0),
               blurRadius: 15.0
-            ),
+      ),
               BoxShadow(
               color: Colors.black12,
               offset: Offset(0.0, -10.0),

@@ -177,7 +177,7 @@ class _ProfileViewState extends State<ProfileView> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          _buildStatItem("Followers", _followers),
+          _buildStatItem("Clout", _followers),
           _buildStatItem("Fits", _customfits),
           _buildStatItem("Likes", _likes),
         ],
