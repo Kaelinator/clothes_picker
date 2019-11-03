@@ -86,7 +86,7 @@ class _LoginState extends State<Login> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: ScreenUtil.getInstance().setHeight(600),
+                    height: ScreenUtil.getInstance().setHeight(650),
                     
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -116,6 +116,11 @@ class _LoginState extends State<Login> {
                                 fontFamily: "Poppins-Bold",
                             letterSpacing: .6)
                           ),
+
+                          SizedBox(
+                            height: ScreenUtil.getInstance().setHeight(60),
+                          ),
+
                           Text("Username",
                             style: TextStyle(
                                 fontFamily: "Poppins-Medium",
@@ -147,7 +152,6 @@ class _LoginState extends State<Login> {
                                 hintStyle: TextStyle(color: Colors.grey, fontSize: 18.0)),
                           ),
                            _showError(),
-
                         ],
                       )
                     )

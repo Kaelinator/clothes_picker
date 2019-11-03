@@ -32,7 +32,7 @@ class _SignupState extends State<Signup> {
     if (pass.text.length < 1 || pass.text != confirmPass.text || email.text.length < 1) {
       /* bad input */
       setState(() {
-        errorText = 'incomplete form';
+        errorText = 'Incomplete form';
       });
       return;
     }
@@ -63,9 +63,15 @@ class _SignupState extends State<Signup> {
 
   Widget _showError() {
     if (errorText == null)
-      return Container();
+      return SizedBox(height: ScreenUtil.getInstance().setHeight(50));
 
-    return Text('$errorText', style: TextStyle(color: Colors.redAccent, fontSize: 20));
+    return (Text(errorText,
+            style: TextStyle(
+                fontSize: ScreenUtil.getInstance().setSp(40),
+                fontFamily: "Poppins-Medium",
+                color: Colors.red,
+            letterSpacing: .6)
+          ));
   }
 
   @override
@@ -89,7 +95,7 @@ class _SignupState extends State<Signup> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: ScreenUtil.getInstance().setHeight(600),
+                    height: ScreenUtil.getInstance().setHeight(650),
                     
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -167,6 +173,8 @@ class _SignupState extends State<Signup> {
                                 hintText: "Confirm Password",
                                 hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
                           ),
+                          _showError(),
+
                         ],
                       )
                     )
