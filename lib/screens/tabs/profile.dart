@@ -281,7 +281,9 @@ class _ProfileViewState extends State<ProfileView> {
                   SizedBox(height: 8.0),
                   Text("Wardrobe", style: getTextStyle()),
                   Column(
-                    children: CLOTHING_TYPES.map((String type) => CategoryName(type)).toList().cast<Widget>()
+                    children: CLOTHING_TYPES.map(
+                      (String type) => CategoryName(type)
+                    ).toList().cast<Widget>()
                   ),
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(60),
@@ -378,16 +380,18 @@ class CategoryName extends StatelessWidget {
                 child: InkWell(
                   onTap: () => Navigator.pushNamed(
                     context, 
-                    '/add-article', 
+                    '/view-article', 
                     arguments: ArticleArguments(categoryName)
                   ),
                   child: Center(
                     child: Text(categoryName,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: "Poppins-Bold",
-                            fontSize: 16,
-                            letterSpacing: 1.0)),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Poppins-Bold",
+                        fontSize: 16,
+                        letterSpacing: 1.0
+                      )
+                    ),
                   ),
                 ),
               ),
