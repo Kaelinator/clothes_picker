@@ -61,7 +61,7 @@ class Article {
   Article(this.name, this.type, this.img);
 
   Article.fromMap(Map<String, dynamic> data) {
-    print('THIS IS DATA: $data');
+    
     count = data['count'];
     if (data['article'] == null)
       return;

@@ -44,8 +44,8 @@ class _CustomFitCardState extends State<CustomFitCard> {
     List<Article> tops = _getArticles(articles, 'Top');
     List<Article> bottoms = _getArticles(articles, 'Bottom');
     List<Article> shoes = _getArticles(articles, 'Shoes');
-    List<Article> hats = _getArticles(articles, 'Hats');
-    List<Article> accessories = _getArticles(articles, 'Accessories');
+    List<Article> hats = _getArticles(articles, 'Hat');
+    List<Article> accessories = _getArticles(articles, 'Accessory');
 
     Random r = Random();
 
@@ -57,8 +57,6 @@ class _CustomFitCardState extends State<CustomFitCard> {
       accessory1: getRandom(r, accessories),
       accessory2: getRandom(r, accessories),
     )).toList();
-
-    print(l);
 
     return l;
   }
@@ -104,21 +102,21 @@ class _CustomFitCardState extends State<CustomFitCard> {
                             width: _size,
                             height: _size,
                               decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage('assets/add.png'))
+                                image: DecorationImage(image: fit.accessory1?.img == null ?  AssetImage('assets/add.png') : fit.accessory1.img)
                             ),
                           ),
                           Container(
                             width: _size,
                             height: _size,
                             decoration: BoxDecoration(
-                              image: DecorationImage(image: AssetImage('assets/shirt_default.jpg'))
+                              image: DecorationImage(image: fit.top?.img == null ? AssetImage('assets/shirt_default.jpg') : fit.top.img)
                             ),
                           ),
                           Container(
                             width: _size,
                             height: _size,
                             decoration: BoxDecoration(
-                              image: DecorationImage(image: AssetImage('assets/baseball_default.png'))
+                              image: DecorationImage(image: fit.hat?.img == null ? AssetImage('assets/baseball_default.png') : fit.hat.img)
                             ),
                           ),
                           ],
@@ -129,21 +127,21 @@ class _CustomFitCardState extends State<CustomFitCard> {
                             width: _size,
                             height: _size,
                             decoration: BoxDecoration(
-                              image: DecorationImage(image: AssetImage('assets/add.png'))
+                              image: DecorationImage(image: fit.accessory2?.img == null ? AssetImage('assets/add.png') : fit.accessory2.img)
                             ),
                           ),
                           Container(
                             width: _size,
                             height: _size,
                             decoration: BoxDecoration(
-                              image: DecorationImage(image: AssetImage('assets/pants_default.png'))
+                              image: DecorationImage(image: fit.bottom?.img == null ? AssetImage('assets/pants_default.png') : fit.bottom.img)
                             ),
                           ),
                           Container(
                             width: _size,
                             height: _size,
                             decoration: BoxDecoration(
-                              image: DecorationImage(image: AssetImage('assets/shoes_default.png'))
+                              image: DecorationImage(image: fit.shoes?.img == null ? AssetImage('assets/shoes_default.png') : fit.shoes.img)
                             ),
                           )
                         ],
