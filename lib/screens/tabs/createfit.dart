@@ -70,6 +70,7 @@ class FitCreaterView extends StatelessWidget {
       ),
       bottomNavigationBar: BottomAppBar(
         child: FlatButton(
+          onPressed: () => print("create fit"),
           child: Text("Create Fit"),
         ),
       ),
