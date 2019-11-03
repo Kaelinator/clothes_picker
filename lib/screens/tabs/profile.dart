@@ -1,17 +1,43 @@
+import 'dart:io';
+
+import 'package:clothes_picker/screens/auth/authenticate.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:clothes_picker/screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:image_picker/image_picker.dart';
 
-class ProfileView extends StatelessWidget {
-  final String _fullName = "Randy Kirk";
-  final String _bio =
-      "\"Hi, I am a Freelance developer working for hourly basis. If you wants to contact me to build your product leave a message.\"";
+class ProfileView extends StatefulWidget {
+
+  final FirebaseUser _user;
+
+  ProfileView(this._user);
+
+  @override
+  _ProfileViewState createState() => _ProfileViewState(_user);
+}
+
+class _ProfileViewState extends State<ProfileView> {
   final String _followers = "173";
   final String _customfits = "11";
   final String _likes = "450";
 
+  FirebaseUser _user;
+  _ProfileViewState(this._user);
+
+  @override
+  void initState() {
+    FirebaseAuth.instance.currentUser()
+      .then((FirebaseUser user) {
+        setState(() {
+          _user = user;
+        });
+      })
+      .catchError((err) => print('error loading user, ${err.message}'));
+    super.initState();
+  }
   
   void _signOut() {
     FirebaseAuth.instance.signOut()
@@ -33,7 +59,7 @@ class ProfileView extends StatelessWidget {
           SizedBox(height: 50),
           _profileImage(),
           Text(
-            _fullName,
+            _user.displayName ?? '',
             style: getTextStyle(),
           )
         ],
@@ -43,8 +69,61 @@ class ProfileView extends StatelessWidget {
 
   Widget _profileImage() {
     return Center(
-      child: InkWell(
-        onTap: () => print("change profile image"),
+      child: _imageButton(_changeProfileImage, 140.0, 140.0,
+        _user.photoUrl != null
+          ? NetworkImage(_user.photoUrl)
+          : NetworkImage('https://www.clipartwiki.com/clipimg/detail/197-1979569_no-profile.png')
+      ),
+    );
+  }
+
+  void _changeProfileImage() {
+    StorageReference articleRef = FirebaseStorage.instance.ref().child('profile-images');
+    String filename = _user.uid;
+
+    if (_user.photoUrl != null) {
+      // replace old image
+      articleRef.child(filename)
+        .delete()
+        .then((_) => print('deleted old image'))
+        .catchError((err) => print('Failed to delete image: ${err.message}'));
+    }
+
+    ImagePicker.pickImage(source: ImageSource.gallery)
+      .then((File image) {
+
+        articleRef
+          .child(filename)
+          .putFile(image)
+          .onComplete
+          .then((StorageTaskSnapshot snapshot) {
+            print('Uploading: $filename');
+            snapshot.ref.getDownloadURL()
+              .then((dynamic url) {
+                print('URL: $url');
+                _user.updateProfile(UserUpdateInfo()..photoUrl = url)
+                  .then((_) {
+                    print('sucessfully set photoUrl to $url');
+                    _user.reload()
+                      .then((_) => FirebaseAuth.instance.currentUser())
+                      .then((FirebaseUser user) {
+                        print('reloaded user');
+                        setState(() {
+                          _user = user;
+                        });
+                      })
+                      .catchError((err) => print('error reloading user, ${err.message}'));
+                  })
+                  .catchError((err) => print('error setting photoUrl, ${err.message}'));
+              });
+          });
+      });
+  }
+
+  Widget _imageButton(Function _onClick, double width, double height, ImageProvider<dynamic> image){
+    return RawMaterialButton(
+      child: new InkWell(// this is the one you are looking for..........
+        onTap: _onClick,
         child: new Container(
           width: 140,
           height: 140,
@@ -62,6 +141,29 @@ class ProfileView extends StatelessWidget {
     );
   }
 
+  Widget _buildFullName() {
+    TextStyle _nameTextStyle = TextStyle(
+      fontFamily: 'Roboto',
+      color: Colors.black,
+      fontSize: 28.0,
+      fontWeight: FontWeight.w700,
+    );
+
+    return Text(
+      _user.displayName ?? '',
+      style: _nameTextStyle,
+    );
+  }
+
+  Widget _buildStatus(BuildContext context) {
+    return Container(
+      //padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+    );
+  }
 
   Widget _buildStatItem(String label, String count) {
 
@@ -104,14 +206,15 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-
   Widget _buildSeparator(Size screenSize) {
     return Container(
       width: screenSize.width,
       height: 2.0,
       color: getTextColor(),
+      //margin: EdgeInsets.only(top: 4.0),
     );
   }
+
 
   Widget _buildButtons() {
     return Padding(

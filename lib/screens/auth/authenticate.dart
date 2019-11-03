@@ -1,3 +1,6 @@
+import 'package:clothes_picker/screens/auth/signin.dart';
+import 'package:clothes_picker/screens/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -21,7 +24,8 @@ class AuthHandler extends StatefulWidget {
 
 class _AuthHandlerState extends State<AuthHandler> {
 
-  FirebaseUser user;
+  FirebaseUser _user;
+  bool _isAdmin = false;
 
   @override
   void initState() {
@@ -30,23 +34,31 @@ class _AuthHandlerState extends State<AuthHandler> {
 
     FirebaseAuth.instance.onAuthStateChanged
       .listen(_handleAuth);
+    
     super.initState();
   }
 
   void _handleAuth(FirebaseUser user) {
     setState(() {
-      this.user = user;
+      _user = user;
+      _isAdmin = false;
     });
 
-    if (user == null) {
-      Navigator.pushNamed(context, '/signin');
-    } else {
-      Navigator.pushNamed(context, '/home', arguments: UserArguments(user));
-    }
+    if (_user == null) return;
+
+    Firestore.instance.collection('users')
+      .document(user.uid)
+      .get()
+      .then((DocumentSnapshot doc) {
+        setState(() {
+          _isAdmin = doc.data['isAdmin'];
+        });
+      })
+      .catchError((err) => print('Failed to get user data, ${err.message}'));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return _user == null ? SigninScreen() : HomeScreen(_user, _isAdmin);
   }
 }
