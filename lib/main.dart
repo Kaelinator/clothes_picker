@@ -1,3 +1,4 @@
+import 'package:clothes_picker/screens/home.dart';
 import 'package:flutter/material.dart';
 import './screens/auth/authenticate.dart';
 import './screens/auth/signin.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => Authenticate(),
         '/signin': (context) => SigninScreen(),
         '/signup': (context) => SignupScreen(),
-        '/home': (context) => CreateArticleScreen(),
+        '/home': (context) => HomeScreen(),
         '/new-article': (context) => CreateArticleScreen()
       }
     );
