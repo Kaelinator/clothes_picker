@@ -87,7 +87,8 @@ class _CreateArticleState extends State<CreateArticle> {
         'name': _name.text,
         'type': _type,
         'warmth': _warmth,
-        'isRainFriendly': _isRainFriendly
+        'isRainFriendly': _isRainFriendly,
+        'keywords': _name.text.split(' ')
       })
       .then((_) {
         print('created article of clothing');

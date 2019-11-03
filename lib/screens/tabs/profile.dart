@@ -264,7 +264,7 @@ class _ProfileViewState extends State<ProfileView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text("Wardrobe", style: getTextStyle()),    
-                      _imageButton( (){print("add article");}, 30.0, 30.0, NetworkImage("http://pngimages.net/sites/default/files/plus-png-image-59147.png"))
+                      _imageButton(() => Navigator.pushNamed(context, '/add-article'), 30.0, 30.0, NetworkImage("http://pngimages.net/sites/default/files/plus-png-image-59147.png"))
                     ],
                   ),
                   SizedBox(height: 4.0),
