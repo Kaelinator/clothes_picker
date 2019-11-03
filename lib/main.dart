@@ -20,13 +20,18 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       initialRoute: '/',
-      routes: {
-        '/': (context) => Authenticate(),
-        '/signin': (context) => SigninScreen(),
-        '/signup': (context) => SignupScreen(),
-        '/create-article': (context) => CreateArticleScreen(),
-        '/add-article': (context) => AddArticleScreen()
-      }
+      onGenerateRoute: (RouteSettings settings) {
+        print('build route for ${settings.name}');
+        var routes = <String, WidgetBuilder>{
+          '/': (context) => Authenticate(),
+          '/signin': (context) => SigninScreen(),
+          '/signup': (context) => SignupScreen(),
+          '/create-article': (context) => CreateArticleScreen(),
+          '/add-article': (context) => AddArticleScreen(settings.arguments)
+        };
+        WidgetBuilder builder = routes[settings.name];
+        return MaterialPageRoute(builder: (ctx) => builder(ctx));
+      },
     );
   }
 }

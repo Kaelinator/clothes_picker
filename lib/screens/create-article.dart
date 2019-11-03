@@ -6,9 +6,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 const List<String> CLOTHING_TYPES = <String>[
-  'A',
-  'B',
-  'C'
+  'Hats',
+  'Tops',
+  'Bottoms',
+  'Shoes',
+  'Accessories',
 ];
 
 const List<String> WARMTH_TYPES = <String>[

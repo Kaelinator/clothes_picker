@@ -2,31 +2,46 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
+class ArticleArguments {
+  final String type;
+
+  ArticleArguments(this.type);
+}
+
 class AddArticleScreen extends StatefulWidget {
+
+  final ArticleArguments _args;
+  AddArticleScreen(this._args);
+
   @override
-  _AddArticleScreenState createState() => _AddArticleScreenState();
+  _AddArticleScreenState createState() => _AddArticleScreenState(_args);
 }
 
 class _AddArticleScreenState extends State<AddArticleScreen> {
 
+  final ArticleArguments _args;
+  _AddArticleScreenState(this._args);
+
+
   final CollectionReference articlesRef = Firestore.instance.collection('articles');
-  final _search = TextEditingController();
   Stream<QuerySnapshot> _articles;
   
   @override
   void initState() {
-    _articles = articlesRef.snapshots();
+    print('SEARCHING TYPE: ${_args.type}');
+    _articles = articlesRef.where('type', isEqualTo: _args.type).snapshots();
     super.initState();
   }
 
   void _searchFor(String text) {
     print('SEARCHING: $text');
-
     setState(() {
       _articles = ConcatStream(
         text.toLowerCase()
           .split(' ')
-          .map((word) => articlesRef.where('keywords', arrayContains: word).snapshots())
+          .map((word) => articlesRef
+            .where('type', isEqualTo: _args.type)
+            .where('keywords', arrayContains: word).snapshots())
       );
     });
   }

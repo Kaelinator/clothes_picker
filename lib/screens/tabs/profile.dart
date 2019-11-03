@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:clothes_picker/screens/auth/authenticate.dart';
+import 'package:clothes_picker/screens/auth/add-article.dart';
+import 'package:clothes_picker/screens/create-article.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:clothes_picker/screens/home.dart';
@@ -143,30 +144,6 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  Widget _buildFullName() {
-    TextStyle _nameTextStyle = TextStyle(
-      fontFamily: 'Roboto',
-      color: Colors.black,
-      fontSize: 28.0,
-      fontWeight: FontWeight.w700,
-    );
-
-    return Text(
-      _user.displayName ?? '',
-      style: _nameTextStyle,
-    );
-  }
-
-  Widget _buildStatus(BuildContext context) {
-    return Container(
-      //padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(4.0),
-      ),
-    );
-  }
-
   Widget _buildStatItem(String label, String count) {
 
     TextStyle _statCountTextStyle = TextStyle(
@@ -303,11 +280,9 @@ class _ProfileViewState extends State<ProfileView> {
                   _buildSeparator(screenSize),
                   SizedBox(height: 8.0),
                   Text("Wardrobe", style: getTextStyle()),
-                  CategoryName("Hats"),
-                  CategoryName("Tops"),
-                  CategoryName("Bottoms"),
-                  CategoryName("Shoes"),
-                  CategoryName("Accessories"),
+                  Column(
+                    children: CLOTHING_TYPES.map((String type) => CategoryName(type)).toList().cast<Widget>()
+                  ),
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(60),
                   ),
@@ -401,7 +376,11 @@ class CategoryName extends StatelessWidget {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  // onTap: () => Navigator.pushNamed(context, categoryName),
+                  onTap: () => Navigator.pushNamed(
+                    context, 
+                    '/add-article', 
+                    arguments: ArticleArguments(categoryName)
+                  ),
                   child: Center(
                     child: Text(categoryName,
                         style: TextStyle(
