@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:clothes_picker/screens/home.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileView extends StatelessWidget {
@@ -23,7 +22,7 @@ class ProfileView extends StatelessWidget {
       height: screenSize.height / 2.6,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage("https://storage.pixteller.com/designs/designs-images/2019-03-27/05/simple-background-backgrounds-passion-simple-1-5c9b95bd34713.png"),
+          image: AssetImage('assets/profile_bg.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -169,7 +168,6 @@ class ProfileView extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 4.0),
-                  CustomFitCard(),
                   SizedBox(height: 8.0),
                   _buildButtons(),
                 ],
@@ -182,46 +180,6 @@ class ProfileView extends StatelessWidget {
   }
 }
 
-class CustomFitCard extends StatefulWidget {
-    @override
-    _CustomFitCardState createState() => _CustomFitCardState();
-  }
-  
-  class _CustomFitCardState extends State<CustomFitCard> {
-    @override
-    Widget build(BuildContext context) {
-      return CarouselSlider(
-        height: 200.0,
-        items: [1,2,3,4,5].map((i) {
-          return Builder(
-            builder: (BuildContext context) {
-              return Container(
-                width: MediaQuery.of(context).size.width / 1.5,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(0, 15),
-                      blurRadius: 15
-                    ),
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(0, -10),
-                      blurRadius: 15
-                    ),
-                  ]
-                ),
-                child: Text('text $i', style: TextStyle(fontSize: 16.0),)
-              );
-            },
-          );
-        }).toList(),
-      );
-    }
-  } 
 
  TextStyle getTextStyle(){
    TextStyle _nameTextStyle = TextStyle(
