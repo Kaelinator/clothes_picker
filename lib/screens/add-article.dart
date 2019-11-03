@@ -74,6 +74,17 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
+      appBar: AppBar(
+        title: Text(_args.type)
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(
+          context, 
+          '/add-article', 
+          arguments: ArticleArguments(_args.type)
+        ),
+        child: Icon(Icons.add)
+      ),
 
       body: Stack(
         children: <Widget>[
