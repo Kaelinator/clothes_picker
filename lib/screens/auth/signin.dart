@@ -20,42 +20,42 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   final _formKey = GlobalKey<FormState>();
-  final pass = TextEditingController();
-  final email = TextEditingController();
-  String errorText;
+  final _password = TextEditingController();
+  final _email = TextEditingController();
+  String _errorText;
 
   void _login(BuildContext context) {
-    if (pass.text.length < 1 || email.text.length < 1) {
+    if (_password.text.length < 1 || _email.text.length < 1) {
       /* bad input */
       setState(() {
-        errorText = 'incomplete form';
+        _errorText = 'incomplete form';
       });
       return; // no no
     }
 
     setState(() {
-      errorText = null;
+      _errorText = null;
     });
 
     FirebaseAuth.instance
-      .signInWithEmailAndPassword(email: email.text, password: pass.text)
+      .signInWithEmailAndPassword(email: _email.text, password: _password.text)
       .then((AuthResult result) {
         print('logged in ${result.user.uid}');
       })
       .catchError((dynamic err) {
         print('Failed to login: ${err.message}');
         setState(() {
-          errorText = '${err.message}';
+          _errorText = '${err.message}';
         });
       });
 
   }
 
   Widget _showError() {
-    if (errorText == null)
+    if (_errorText == null)
       return Container();
 
-    return Text('$errorText', style: TextStyle(color: Colors.redAccent, fontSize: 20));
+    return Text('$_errorText', style: TextStyle(color: Colors.redAccent, fontSize: 20));
   }
 
   @override
@@ -69,13 +69,13 @@ class _LoginState extends State<Login> {
               _showError(),
               TextFormField(
                 keyboardType: TextInputType.emailAddress,
-                controller: email,
+                controller: _email,
                 decoration: InputDecoration(labelText: 'Email'),
               ),
               TextFormField(
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: true,
-                controller: pass,
+                controller: _password,
                 decoration: InputDecoration(labelText: 'Password'),
               ),
               MaterialButton(
