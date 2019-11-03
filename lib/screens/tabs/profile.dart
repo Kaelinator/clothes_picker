@@ -1,23 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:clothes_picker/screens/home.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileView extends StatelessWidget {
   final String _fullName = "Randy Kirk";
-  final String _status = "Software Developer";
   final String _bio =
       "\"Hi, I am a Freelance developer working for hourly basis. If you wants to contact me to build your product leave a message.\"";
   final String _followers = "173";
-  final String _posts = "24";
-  final String _scores = "450";
+  final String _customfits = "11";
+  final String _likes = "450";
+
+  
+  void _signOut() {
+    FirebaseAuth.instance.signOut()
+      .then((data) => print('signed out'))
+      .catchError((err) => print('${err.message}'));
+  }
 
   Widget _buildCoverImage(Size screenSize) {
     return Container(
-      // height: screenSize.height / 2.6,
-      // decoration: BoxDecoration(
-      //   // image: DecorationImage(
-      //   //   //image: NetworkImage("https://storage.pixteller.com/designs/designs-images/2019-03-27/05/simple-background-backgrounds-passion-simple-1-5c9b95bd34713.png"),
-      //   //   fit: BoxFit.cover,
-      //   // ),
-      // ),
+      height: screenSize.height / 2.6,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage("https://storage.pixteller.com/designs/designs-images/2019-03-27/05/simple-background-backgrounds-passion-simple-1-5c9b95bd34713.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Column(
+        children: <Widget>[
+          SizedBox(height: 50),
+          _buildProfileImage(),
+          _buildFullName()
+        ],
+      )
     );
   }
 
@@ -57,30 +73,15 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildStatus(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
+      //padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(4.0),
-      ),
-      child: Text(
-        _status,
-        style: TextStyle(
-          fontFamily: 'Spectral',
-          color: Colors.black,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w300,
-        ),
       ),
     );
   }
 
   Widget _buildStatItem(String label, String count) {
-    TextStyle _statLabelTextStyle = TextStyle(
-      fontFamily: 'Roboto',
-      color: Colors.black,
-      fontSize: 16.0,
-      fontWeight: FontWeight.w200,
-    );
 
     TextStyle _statCountTextStyle = TextStyle(
       color: Colors.black54,
@@ -97,7 +98,7 @@ class ProfileView extends StatelessWidget {
         ),
         Text(
           label,
-          style: _statLabelTextStyle,
+          style: getTextStyle(),
         ),
       ],
     );
@@ -105,8 +106,8 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildStatContainer() {
     return Container(
-      height: 60.0,
-      margin: EdgeInsets.only(top: 8.0),
+      height: 65.0,
+      margin: EdgeInsets.only(top: 10, bottom: 2),
       decoration: BoxDecoration(
         color: Color(0xFFEFF4F7),
       ),
@@ -114,8 +115,8 @@ class ProfileView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           _buildStatItem("Followers", _followers),
-          _buildStatItem("Posts", _posts),
-          _buildStatItem("Scores", _scores),
+          _buildStatItem("Fits", _customfits),
+          _buildStatItem("Likes", _likes),
         ],
       ),
     );
@@ -143,10 +144,10 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildSeparator(Size screenSize) {
     return Container(
-      width: screenSize.width / 1.6,
+      width: screenSize.width,
       height: 2.0,
-      color: Colors.black54,
-      margin: EdgeInsets.only(top: 4.0),
+      color: getTextColor(),
+      //margin: EdgeInsets.only(top: 4.0),
     );
   }
 
@@ -168,7 +169,7 @@ class ProfileView extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: InkWell(
-              onTap: () => print("followed"),
+              onTap: _signOut,
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(
@@ -177,31 +178,10 @@ class ProfileView extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    "FOLLOW",
+                    "Sign Out",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 10.0),
-          Expanded(
-            child: InkWell(
-              onTap: () => print("Message"),
-              child: Container(
-                height: 40.0,
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      "MESSAGE",
-                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
@@ -213,26 +193,23 @@ class ProfileView extends StatelessWidget {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          _buildCoverImage(screenSize),
           SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: screenSize.height / 6.4),
-                  _buildProfileImage(),
-                  _buildFullName(),
+                  _buildCoverImage(screenSize),
                   _buildStatus(context),
                   _buildStatContainer(),
-                  _buildBio(context),
                   _buildSeparator(screenSize),
-                  SizedBox(height: 10.0),
-                  _buildGetInTouch(context),
+                  CustomFitCard(),
+                  //Text("Wardrobe"),
                   SizedBox(height: 8.0),
                   _buildButtons(),
                 ],
@@ -244,3 +221,55 @@ class ProfileView extends StatelessWidget {
     );
   }
 }
+
+class CustomFitCard extends StatefulWidget {
+    @override
+    _CustomFitCardState createState() => _CustomFitCardState();
+  }
+  
+  class _CustomFitCardState extends State<CustomFitCard> {
+    @override
+    Widget build(BuildContext context) {
+      return CarouselSlider(
+        height: 200.0,
+        items: [1,2,3,4,5].map((i) {
+          return Builder(
+            builder: (BuildContext context) {
+              return Container(
+                width: MediaQuery.of(context).size.width / 1.5,
+                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 15),
+                      blurRadius: 15
+                    ),
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, -10),
+                      blurRadius: 15
+                    ),
+                  ]
+                ),
+                child: Text('text $i', style: TextStyle(fontSize: 16.0),)
+              );
+            },
+          );
+        }).toList(),
+      );
+    }
+  } 
+
+ TextStyle getTextStyle(){
+   TextStyle _nameTextStyle = TextStyle(
+      fontFamily: 'Roboto',
+      color: Colors.black,
+      fontSize: 28.0,
+      fontWeight: FontWeight.w700,
+    );
+
+    return _nameTextStyle;
+ }
