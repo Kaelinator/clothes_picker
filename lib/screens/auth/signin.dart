@@ -75,9 +75,12 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 60.0),
               child: Column(
                 children: <Widget>[
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(200),
+                  ),
                   Container(
                     width: double.infinity,
-                    height: ScreenUtil.getInstance().setHeight(500),
+                    height: ScreenUtil.getInstance().setHeight(600),
                     
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -96,7 +99,6 @@ class _LoginState extends State<Login> {
                       ],
                     ),
 
-
                     child: Padding(
                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
                       child: Column(
@@ -111,20 +113,24 @@ class _LoginState extends State<Login> {
                           Text("Username",
                             style: TextStyle(
                                 fontFamily: "Poppins-Medium",
-                                fontSize: ScreenUtil.getInstance().setSp(26))
+                                fontSize: ScreenUtil.getInstance().setSp(32))
                             ),
                           TextFormField(
                             keyboardType: TextInputType.emailAddress,
                             controller: email,
                             decoration: InputDecoration(
                               hintText: "Username",
-                              hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
+                              hintStyle: TextStyle(color: Colors.grey, fontSize: 18.0)),
+                          ),
+
+                          SizedBox(
+                            height: ScreenUtil.getInstance().setHeight(60),
                           ),
 
                           Text("Password",
                             style: TextStyle(
                                 fontFamily: "Poppins-Medium",
-                                fontSize: ScreenUtil.getInstance().setSp(26))
+                                fontSize: ScreenUtil.getInstance().setSp(32))
                             ),
                           TextFormField(
                             keyboardType: TextInputType.visiblePassword,
@@ -132,7 +138,7 @@ class _LoginState extends State<Login> {
                             controller: pass,
                             decoration: InputDecoration(
                                 hintText: "Password",
-                                hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
+                                hintStyle: TextStyle(color: Colors.grey, fontSize: 18.0)),
                           ),
                         ],
                       )
@@ -195,7 +201,7 @@ class _LoginState extends State<Login> {
                             child: InkWell(
                               onTap: () => _login(context),
                               child: Center(
-                                child: Text("SIGNIN",
+                                child: Text("Sign In",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: "Poppins-Bold",

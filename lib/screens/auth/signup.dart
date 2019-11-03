@@ -84,9 +84,12 @@ class _SignupState extends State<Signup> {
               padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 60.0),
               child: Column(
                 children: <Widget>[
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(200),
+                  ),
                   Container(
                     width: double.infinity,
-                    height: ScreenUtil.getInstance().setHeight(450),
+                    height: ScreenUtil.getInstance().setHeight(600),
                     
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -110,24 +113,60 @@ class _SignupState extends State<Signup> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          Text("Create an Account",
+                            style: TextStyle(
+                                fontSize: ScreenUtil.getInstance().setSp(45),
+                                fontFamily: "Poppins-Bold",
+                            letterSpacing: .6)
+                          ),
+                          Text("Username",
+                            style: TextStyle(
+                                fontFamily: "Poppins-Medium",
+                                fontSize: ScreenUtil.getInstance().setSp(26))
+                            ),
                           TextFormField(
                             keyboardType: TextInputType.emailAddress,
                             controller: email,
-                            decoration: InputDecoration(labelText: 'Email'),
+                            decoration: InputDecoration(
+                              hintText: "Username",
+                              hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
                           ),
+
+                          SizedBox(
+                            height: ScreenUtil.getInstance().setHeight(30),
+                          ),
+
+                          Text("Password",
+                            style: TextStyle(
+                                fontFamily: "Poppins-Medium",
+                                fontSize: ScreenUtil.getInstance().setSp(26))
+                            ),
                           TextFormField(
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: true,
                             controller: pass,
-                            decoration: InputDecoration(labelText: 'Password'),
+                            decoration: InputDecoration(
+                                hintText: "Password",
+                                hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
                           ),
+
+                          SizedBox(
+                            height: ScreenUtil.getInstance().setHeight(30),
+                          ),
+
+                          Text("Confirm Password",
+                            style: TextStyle(
+                                fontFamily: "Poppins-Medium",
+                                fontSize: ScreenUtil.getInstance().setSp(26))
+                            ),
                           TextFormField(
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: true,
                             controller: confirmPass,
-                            decoration: InputDecoration(labelText: 'Confirm Password'),
+                            decoration: InputDecoration(
+                                hintText: "Confirm Password",
+                                hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
                           ),
-                          
                         ],
                       )
                     )
@@ -135,11 +174,43 @@ class _SignupState extends State<Signup> {
 
                   SizedBox(height: ScreenUtil.getInstance().setHeight(40)),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       InkWell(
                         child: Container(
-                          width: ScreenUtil.getInstance().setWidth(625),
+                          width: ScreenUtil.getInstance().setWidth(300),
+                          height: ScreenUtil.getInstance().setHeight(100),
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xFF17ead9),
+                                Color(0xFF6078ea)
+                              ]),
+                              borderRadius: BorderRadius.circular(6.0),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color(0xFF6078ea).withOpacity(.3),
+                                    offset: Offset(0.0, 8.0),
+                                    blurRadius: 8.0)
+                              ]),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => Navigator.pushNamed(context, '/signin'),
+                              child: Center(
+                                child: Text("Login",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Poppins-Bold",
+                                        fontSize: 18,
+                                        letterSpacing: 1.0)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        child: Container(
+                          width: ScreenUtil.getInstance().setWidth(300),
                           height: ScreenUtil.getInstance().setHeight(100),
                           decoration: BoxDecoration(
                               gradient: LinearGradient(colors: [
