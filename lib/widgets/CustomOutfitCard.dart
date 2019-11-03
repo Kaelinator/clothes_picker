@@ -44,11 +44,11 @@ class _CustomFitCardState extends State<CustomFitCard> {
                     SizedBox(height: 8,), 
                     Row(  
                       children: <Widget>[
-                        Container(
+                      Container(
                         width: _size,
                         height: _size,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(image: AssetImage('assets/add.png'))
+                          decoration: BoxDecoration(
+                            image: DecorationImage(image: AssetImage('assets/shirt_default.png'))
                         ),
                       ),
                       Container(

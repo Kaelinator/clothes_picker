@@ -2,6 +2,8 @@ import 'package:clothes_picker/screens/add-article.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class ViewArticlesScreen extends StatefulWidget {
 
@@ -35,9 +37,11 @@ class _ViewArticlesScreenState extends State<ViewArticlesScreen> {
               .document(key)
               .get()
               .then((DocumentSnapshot snap) {
+                // if(snap.data['type'] == _args.type) {
                 return { 'article': snap.data, 'count': value };
-              }));
-          });
+              })
+              );
+            });
           setState(() {
             _articles = list;
           });
@@ -51,6 +55,8 @@ class _ViewArticlesScreenState extends State<ViewArticlesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomPadding: true,
       appBar: AppBar(
         title: Text(_args.type)
       ),
@@ -62,23 +68,52 @@ class _ViewArticlesScreenState extends State<ViewArticlesScreen> {
         ),
         child: Icon(Icons.add)
       ),
-      body: ListView.builder(
-        itemCount: _articles.length,
-        itemBuilder: (BuildContext ctxt, int i) {
-          return FutureBuilder(
-            future: _articles[i],
-            builder: (ctxt, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return ListTile(
-                  title: Text(snapshot.data['article']['name']),
-                  trailing: Text('${snapshot.data['count']}'),
-                );
-              } else {
-                return LinearProgressIndicator();
-              }
-            },
-          );
-        }
+      body: Stack(
+        children: <Widget>[
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 60.0),
+              child: Column(
+                children: <Widget>[
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _articles.length,
+                    itemBuilder: (BuildContext ctxt, int i) {
+                      return FutureBuilder(
+                        future: _articles[i],
+                        builder: (ctxt, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done ) {
+                            if(snapshot.data['article']['type'] != _args.type)
+                              return Container();
+                              return ListTile(
+                                leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(snapshot.data['article']["imageUrl"]) != null ? 
+                                    NetworkImage(snapshot.data['article']["imageUrl"]) : 
+                                    NetworkImage("https://www.iconsdb.com/icons/preview/black/square-xxl.png")
+                                  ),
+                                title: Text(snapshot.data['article']['name'],
+                                  style: TextStyle(
+                                    fontFamily: "Poppins-Medium",
+                                    fontSize: ScreenUtil.getInstance().setSp(32))
+                                  ),
+                                trailing: Text('${snapshot.data['count']}',
+                                  style: TextStyle(
+                                    fontFamily: "Poppins-Medium",
+                                    fontSize: ScreenUtil.getInstance().setSp(32))
+                                  ),
+                              );
+                          } else {
+                            return LinearProgressIndicator();
+                          }
+                        },
+                      );
+                    }
+                  )
+                ]
+              )
+            )
+          )
+        ]
       )
     );
   }

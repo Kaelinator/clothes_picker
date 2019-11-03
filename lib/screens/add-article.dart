@@ -1,3 +1,4 @@
+import 'package:clothes_picker/widgets/QuickPopup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
   
   @override
   void initState() {
+    print(Firestore.instance.collection('articles'));
     _articles = articlesRef.where('type', isEqualTo: _args.type).snapshots();
     super.initState();
   }
@@ -75,6 +77,17 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
+      appBar: AppBar(
+        title: Text(_args.type)
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(
+          context, 
+          '/add-article', 
+          arguments: ArticleArguments(_args.type)
+        ),
+        child: Icon(Icons.add)
+      ),
 
       body: Stack(
         children: <Widget>[
@@ -100,9 +113,16 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
                             shrinkWrap: true,
                             children: snapshot.data.documents.map((DocumentSnapshot document) {
                               return ListTile(
-                                onTap: () => _addToWardrobe(document.documentID),
+                                onTap: () => {
+                                  _addToWardrobe(document.documentID),
+                                  showDialog(
+                                    context: context, 
+                                    builder: (_) => FunkyOverlay("Added " + document.data['name'])
+                                  ),
+                                  print(document.data)
+                                },
                                 leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(document["imageUrl"]) == null ? 
+                                  backgroundImage: NetworkImage(document["imageUrl"]) != null ? 
                                   NetworkImage(document["imageUrl"]) : 
                                   NetworkImage("https://www.iconsdb.com/icons/preview/black/square-xxl.png")
                                 ),
