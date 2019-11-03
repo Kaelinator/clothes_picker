@@ -75,15 +75,12 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
               padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 60.0),
               child: Column(
                 children: <Widget>[
-                  // appBar: PreferredSize(
-                  //   preferredSize: Size(100, 100),
                   TextFormField(
                     onChanged: _searchFor,
                     decoration: InputDecoration(
                       hintText: "Search",
                       hintStyle: TextStyle(color: Colors.grey, fontSize: 18.0)),
                   ),
-                  // ),
                   StreamBuilder<QuerySnapshot>(
                     stream: _articles,
                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
