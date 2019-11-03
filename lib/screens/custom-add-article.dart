@@ -55,15 +55,6 @@ class _AddCustomArticleScreenState extends State<AddCustomArticleScreen> {
       appBar: AppBar(
         title: Text(_args.type)
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(
-          context, 
-          '/add-custom-article', 
-          arguments: ArticleArguments(_args.type)
-        ),
-        child: Icon(Icons.add)
-      ),
-
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
@@ -89,7 +80,7 @@ class _AddCustomArticleScreenState extends State<AddCustomArticleScreen> {
                             children: snapshot.data.documents.map((DocumentSnapshot document) {
                               return ListTile(
                                 onTap: () => {  
-                                  Navigator.pop(context, document.data),
+                                  Navigator.pop(context, document.data['name'] + ";" + document.data['type'] + ";" + document.data['imageUrl']),
                                 },
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(document["imageUrl"]) != null ? 

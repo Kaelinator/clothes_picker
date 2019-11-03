@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 class ClothSlot extends StatefulWidget {
 
-  final Article _article;
+  Article article;
 
-  const ClothSlot(this._article);
+  ClothSlot(this.article);
 
   @override
-  _ClothSlotState createState() => _ClothSlotState(_article);
+  _ClothSlotState createState() => _ClothSlotState(article);
 }
 
 class _ClothSlotState extends State<ClothSlot> {
@@ -25,7 +25,13 @@ class _ClothSlotState extends State<ClothSlot> {
       '/add-custom-article', 
       arguments: ArticleArguments(_article.type),
     );
-    
+
+    setState(() {
+      _article = Article(result.toString().split(";")[0], result.toString().split(";")[1], NetworkImage(result.toString().split(";")[2]));
+    });
+ 
+
+    print(result);
   }
 
   @override
@@ -61,7 +67,7 @@ class _ClothSlotState extends State<ClothSlot> {
               color: Colors.black12,
               offset: Offset(0.0, 15.0),
               blurRadius: 15.0
-            ),
+      ),
               BoxShadow(
               color: Colors.black12,
               offset: Offset(0.0, -10.0),
