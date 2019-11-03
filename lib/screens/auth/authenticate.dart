@@ -1,3 +1,5 @@
+import 'package:clothes_picker/screens/auth/signin.dart';
+import 'package:clothes_picker/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -38,16 +40,10 @@ class _AuthHandlerState extends State<AuthHandler> {
     setState(() {
       _user = user;
     });
-
-    if (user == null) {
-      Navigator.pushNamed(context, '/signin');
-    } else {
-      Navigator.pushNamed(context, '/home', arguments: UserArguments(user));
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return _user == null ? SigninScreen() : HomeScreen(_user);
   }
 }

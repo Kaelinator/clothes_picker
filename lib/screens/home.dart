@@ -7,12 +7,11 @@ import './tabs/recommendPage.dart';
 
 class HomeScreen extends StatelessWidget {
 
+  final FirebaseUser _user;
+  HomeScreen(this._user);
+
   @override
   Widget build(BuildContext context) {
-
-    final UserArguments args = ModalRoute.of(context).settings.arguments;
-    final FirebaseUser user = args.user; // email and displayName
-
     return DefaultTabController(
         length: 3,
         child: Scaffold(
@@ -33,7 +32,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               RecommendPage(),
               FitCreaterView(),
-              ProfileView(user),
+              ProfileView(_user),
             ],
           ),
         ),
