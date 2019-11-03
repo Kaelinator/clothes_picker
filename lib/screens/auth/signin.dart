@@ -29,7 +29,7 @@ class _LoginState extends State<Login> {
     if (_password.text.length < 1 || _email.text.length < 1) {
       /* bad input */
       setState(() {
-        _errorText = 'incomplete form';
+        _errorText = 'Incomplete form';
       });
       return; // no no
     }
@@ -54,14 +54,19 @@ class _LoginState extends State<Login> {
 
   Widget _showError() {
     if (_errorText == null)
-      return Container();
+      return SizedBox(height: ScreenUtil.getInstance().setHeight(50));
 
-    return Text('$_errorText', style: TextStyle(color: Colors.redAccent, fontSize: 20));
+    return (Text(_errorText,
+            style: TextStyle(
+                fontSize: ScreenUtil.getInstance().setSp(40),
+                fontFamily: "Poppins-Medium",
+                color: Colors.red,
+            letterSpacing: .6)
+          ));
   }
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
@@ -75,31 +80,6 @@ class _LoginState extends State<Login> {
             child: Padding(
               padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 60.0),
               child: Column(
-=======
-    return Container(
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              _showError(),
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                controller: _email,
-                decoration: InputDecoration(labelText: 'Email'),
-              ),
-              TextFormField(
-                keyboardType: TextInputType.visiblePassword,
-                obscureText: true,
-                controller: _password,
-                decoration: InputDecoration(labelText: 'Password'),
-              ),
-              MaterialButton(
-                child: const Text('Login'),
-                onPressed: () => _login(context),
-              ),
-              Row(
->>>>>>> aeff5ef9ce883fb7311538d7e53ea1ee9f41531b
                 children: <Widget>[
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(200),
@@ -143,7 +123,7 @@ class _LoginState extends State<Login> {
                             ),
                           TextFormField(
                             keyboardType: TextInputType.emailAddress,
-                            controller: email,
+                            controller: _email,
                             decoration: InputDecoration(
                               hintText: "Username",
                               hintStyle: TextStyle(color: Colors.grey, fontSize: 18.0)),
@@ -161,11 +141,13 @@ class _LoginState extends State<Login> {
                           TextFormField(
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: true,
-                            controller: pass,
+                            controller: _password,
                             decoration: InputDecoration(
                                 hintText: "Password",
                                 hintStyle: TextStyle(color: Colors.grey, fontSize: 18.0)),
                           ),
+                           _showError(),
+
                         ],
                       )
                     )
