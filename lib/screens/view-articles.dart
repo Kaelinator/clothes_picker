@@ -37,9 +37,11 @@ class _ViewArticlesScreenState extends State<ViewArticlesScreen> {
               .document(key)
               .get()
               .then((DocumentSnapshot snap) {
+                // if(snap.data['type'] == _args.type) {
                 return { 'article': snap.data, 'count': value };
-              }));
-          });
+              })
+              );
+            });
           setState(() {
             _articles = list;
           });
@@ -80,24 +82,26 @@ class _ViewArticlesScreenState extends State<ViewArticlesScreen> {
                       return FutureBuilder(
                         future: _articles[i],
                         builder: (ctxt, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.done) {
-                            return ListTile(
-                              leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(snapshot.data['article']["imageUrl"]) != null ? 
-                                  NetworkImage(snapshot.data['article']["imageUrl"]) : 
-                                  NetworkImage("https://www.iconsdb.com/icons/preview/black/square-xxl.png")
-                                ),
-                              title: Text(snapshot.data['article']['name'],
-                                style: TextStyle(
-                                  fontFamily: "Poppins-Medium",
-                                  fontSize: ScreenUtil.getInstance().setSp(32))
-                                ),
-                              trailing: Text('${snapshot.data['count']}',
-                                style: TextStyle(
-                                  fontFamily: "Poppins-Medium",
-                                  fontSize: ScreenUtil.getInstance().setSp(32))
-                                ),
-                            );
+                          if (snapshot.connectionState == ConnectionState.done ) {
+                            if(snapshot.data['article']['type'] != _args.type)
+                              return Container();
+                              return ListTile(
+                                leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(snapshot.data['article']["imageUrl"]) != null ? 
+                                    NetworkImage(snapshot.data['article']["imageUrl"]) : 
+                                    NetworkImage("https://www.iconsdb.com/icons/preview/black/square-xxl.png")
+                                  ),
+                                title: Text(snapshot.data['article']['name'],
+                                  style: TextStyle(
+                                    fontFamily: "Poppins-Medium",
+                                    fontSize: ScreenUtil.getInstance().setSp(32))
+                                  ),
+                                trailing: Text('${snapshot.data['count']}',
+                                  style: TextStyle(
+                                    fontFamily: "Poppins-Medium",
+                                    fontSize: ScreenUtil.getInstance().setSp(32))
+                                  ),
+                              );
                           } else {
                             return LinearProgressIndicator();
                           }

@@ -44,6 +44,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
   
   @override
   void initState() {
+    print(Firestore.instance.collection('articles'));
     _articles = articlesRef.where('type', isEqualTo: _args.type).snapshots();
     super.initState();
   }
