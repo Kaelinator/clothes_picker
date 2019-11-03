@@ -1,41 +1,47 @@
+import 'package:clothes_picker/screens/tabs/createfit.dart';
 import 'package:flutter/material.dart';
 
 class ClothSlot extends StatefulWidget {
 
-  final String _title;
-  final ImageProvider<dynamic> _img;
 
-  const ClothSlot(this._title, this._img);
+  final Article _article;
+
+  const ClothSlot(this._article);
 
   @override
-  _ClothSlotState createState() => _ClothSlotState(_title, _img);
+  _ClothSlotState createState() => _ClothSlotState(_article);
 }
 
 class _ClothSlotState extends State<ClothSlot> {
 
-  final String _title;
-  final ImageProvider<dynamic> _img;
+  final Article _article;
 
-  _ClothSlotState(this._title, this._img);
+  _ClothSlotState(this._article);
+
+  void update(){
+     print("Pressed: " + _article.name);
+    setState(() {
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
       child: InkWell(
-        onTap: () => print("Pressed: " + _title),
+        onTap: update,
         child: Container(
           child: Center(
             child: Column(
               children: <Widget>[
-                Text(_title, style: TextStyle(fontSize: 20),),
+                Text(_article.type, style: TextStyle(fontSize: 20),),
                 SizedBox(height: 15),
                 Container(
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: _img,
+                      image: _article.img,
                       fit: BoxFit.cover
                     )
                   ),

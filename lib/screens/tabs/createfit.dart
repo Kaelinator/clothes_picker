@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
 import '../../widgets/ClothSlot.dart';
 
-class FitCreaterView extends StatelessWidget {
+class FitCreaterView extends StatefulWidget {
+  @override
+  _FitCreaterViewState createState() => _FitCreaterViewState();
+}
+
+class _FitCreaterViewState extends State<FitCreaterView> {
+  final List<Article> articles = [
+    new Article('default', "Hat",  AssetImage('assets/baseball_default.png')),
+    new Article('default', "Shirt",  AssetImage('assets/shirt_default.png')),
+    new Article('default', "Accessory",  AssetImage('assets/add.png')),
+    new Article('default', "Pants",  AssetImage('assets/pants_default.png')),
+    new Article('default', "Accessory",  AssetImage('assets/add.png')),
+    new Article('default', "Shoes",  AssetImage('assets/shoes_default.png')),
+  ];
+
+  void createFit(){
+    setState(() { 
+
+    });
+    print("create fit");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,22 +34,24 @@ class FitCreaterView extends StatelessWidget {
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
           crossAxisCount: 2,
-          children: <Widget>[
-            ClothSlot("Hat", AssetImage('assets/baseball_default.png')),
-            ClothSlot("Shirt", AssetImage('assets/shirt_default.png'),),
-            ClothSlot("Accessory", AssetImage('assets/add.png')),
-            ClothSlot("Pants", AssetImage('assets/pants_default.png')),
-            ClothSlot("Accessory", AssetImage('assets/add.png')),
-            ClothSlot("Shoes", AssetImage('assets/shoes_default.png')),	
-          ],
+          children: articles.map((f) => ClothSlot(f)).toList().cast<Widget>(),
         )
       ),
       bottomNavigationBar: BottomAppBar(
         child: FlatButton(
-          onPressed: () => print("create fit"),
+          onPressed: () => createFit(),
           child: Text("Create Fit"),
         ),
       ),
     );
   }
+}
+
+class Article{
+
+  final String type;
+  final String name;
+  final ImageProvider<dynamic> img; 
+
+  Article(this.name, this.type, this.img);
 }
