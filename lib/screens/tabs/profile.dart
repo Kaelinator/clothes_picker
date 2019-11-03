@@ -39,46 +39,30 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildProfileImage() {
     return Center(
-      child: RawMaterialButton(
-        onPressed: () {},
-        child: new InkWell(// this is the one you are looking for..........
-          onTap: () => {print("change image")},
-          child: new Container(
-            width: 140.0,
-            height: 140.0,
-            padding: const EdgeInsets.all(20.0),//I used some padding without fixed width and height
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image:  NetworkImage('https://s.hdnux.com/photos/52/31/41/11114611/5/920x920.jpg'),
-                fit: BoxFit.cover,
-              ),
-              shape: BoxShape.circle,
-              color: Colors.green,
+      child: _imageButton( (){print("change image");}, 140.0, 140.0, NetworkImage("https://s.hdnux.com/photos/52/31/41/11114611/5/920x920.jpg")),
+    );
+  }
+
+  Widget _imageButton(Function _onClick, double width, double height, ImageProvider<dynamic> image){
+    return RawMaterialButton(
+      child: new InkWell(// this is the one you are looking for..........
+        onTap: _onClick,
+        child: new Container(
+          width: width,
+          height: height,
+          padding: const EdgeInsets.all(20.0),//I used some padding without fixed width and height
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image:  image,
+              fit: BoxFit.cover,
             ),
+            shape: BoxShape.circle,
+            color: getBackgroundColor(),
           ),
         ),
       ),
     );
   }
-  // Widget _buildProfileImage() {
-  //   return Center(
-  //     child: Container(
-  //       width: 140.0,
-  //       height: 140.0,
-  //       decoration: BoxDecoration(
-  //         image: DecorationImage(
-  //           image: NetworkImage('https://s.hdnux.com/photos/52/31/41/11114611/5/920x920.jpg'),
-  //           fit: BoxFit.cover,
-  //         ),
-  //         borderRadius: BorderRadius.circular(80.0),
-  //         border: Border.all(
-  //           color: Colors.white,
-  //           width: 10.0,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _buildFullName() {
     TextStyle _nameTextStyle = TextStyle(
@@ -233,9 +217,10 @@ class ProfileView extends StatelessWidget {
                   _buildSeparator(screenSize),
                   SizedBox(height: 8.0),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text("Wardrobe", style: getTextStyle()),    
-                      
+                      _imageButton( (){print("add article");}, 30.0, 30.0, NetworkImage("http://pngimages.net/sites/default/files/plus-png-image-59147.png"))
                     ],
                   ),
                   SizedBox(height: 4.0),
