@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class ClothSlot extends StatefulWidget {
 
-
   final Article _article;
 
   const ClothSlot(this._article);

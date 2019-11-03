@@ -7,7 +7,8 @@ class FitCreaterView extends StatefulWidget {
 }
 
 class _FitCreaterViewState extends State<FitCreaterView> {
-  final List<Article> articles = [
+
+  static final List<Article> defaultArticles = [
     new Article('default', "Hat",  AssetImage('assets/baseball_default.png')),
     new Article('default', "Top",  AssetImage('assets/shirt_default.png')),
     new Article('default', "Accessory",  AssetImage('assets/add.png')),
@@ -16,9 +17,12 @@ class _FitCreaterViewState extends State<FitCreaterView> {
     new Article('default', "Shoes",  AssetImage('assets/shoes_default.png')),
   ];
 
-  void createFit(){
-    setState(() { 
+  Fit fit = Fit(defaultArticles[0], defaultArticles[1], defaultArticles[2], defaultArticles[3], defaultArticles[4], defaultArticles[5]);
 
+
+  void createFit(articles){
+    setState(() { 
+      this.fit = Fit(articles[0], articles[1], articles[2], articles[3], articles[4], articles[5]);
     });
     print("create fit");
   }
@@ -34,12 +38,12 @@ class _FitCreaterViewState extends State<FitCreaterView> {
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
           crossAxisCount: 2,
-          children: articles.map((f) => ClothSlot(f)).toList().cast<Widget>(),
+          children: fit.getAsList().map((f) => ClothSlot(f)).toList().cast<Widget>(),
         )
       ),
       bottomNavigationBar: BottomAppBar(
         child: FlatButton(
-          onPressed: () => createFit(),
+          onPressed: () => createFit(this.fit.getAsList()),
           child: Text("Create Fit"),
         ),
       ),
@@ -54,4 +58,19 @@ class Article{
   final ImageProvider<dynamic> img; 
 
   Article(this.name, this.type, this.img);
+}
+
+class Fit{
+  final Article hat;
+  final Article top;
+  final Article bottom;
+  final Article shoes;
+  final Article accessory1;
+  final Article accessory2;
+
+  Fit(this.hat, this.top, this.bottom, this.shoes, this.accessory1, this.accessory2);
+
+  getAsList(){
+    return [hat, top, bottom, shoes, accessory1, accessory2];
+  }
 }
