@@ -39,23 +39,46 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildProfileImage() {
     return Center(
-      child: Container(
-        width: 140.0,
-        height: 140.0,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage('https://s.hdnux.com/photos/52/31/41/11114611/5/920x920.jpg'),
-            fit: BoxFit.cover,
-          ),
-          borderRadius: BorderRadius.circular(80.0),
-          border: Border.all(
-            color: Colors.white,
-            width: 10.0,
+      child: RawMaterialButton(
+        onPressed: () {},
+        child: new InkWell(// this is the one you are looking for..........
+          onTap: () => {print("change image")},
+          child: new Container(
+            width: 140.0,
+            height: 140.0,
+            padding: const EdgeInsets.all(20.0),//I used some padding without fixed width and height
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image:  NetworkImage('https://s.hdnux.com/photos/52/31/41/11114611/5/920x920.jpg'),
+                fit: BoxFit.cover,
+              ),
+              shape: BoxShape.circle,
+              color: Colors.green,
+            ),
           ),
         ),
       ),
     );
   }
+  // Widget _buildProfileImage() {
+  //   return Center(
+  //     child: Container(
+  //       width: 140.0,
+  //       height: 140.0,
+  //       decoration: BoxDecoration(
+  //         image: DecorationImage(
+  //           image: NetworkImage('https://s.hdnux.com/photos/52/31/41/11114611/5/920x920.jpg'),
+  //           fit: BoxFit.cover,
+  //         ),
+  //         borderRadius: BorderRadius.circular(80.0),
+  //         border: Border.all(
+  //           color: Colors.white,
+  //           width: 10.0,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildFullName() {
     TextStyle _nameTextStyle = TextStyle(
@@ -208,8 +231,15 @@ class ProfileView extends StatelessWidget {
                   _buildStatus(context),
                   _buildStatContainer(),
                   _buildSeparator(screenSize),
+                  SizedBox(height: 8.0),
+                  Row(
+                    children: <Widget>[
+                      Text("Wardrobe", style: getTextStyle()),    
+                      
+                    ],
+                  ),
+                  SizedBox(height: 4.0),
                   CustomFitCard(),
-                  //Text("Wardrobe"),
                   SizedBox(height: 8.0),
                   _buildButtons(),
                 ],
