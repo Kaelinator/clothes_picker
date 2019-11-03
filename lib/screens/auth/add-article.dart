@@ -10,8 +10,8 @@ class AddArticleScreen extends StatefulWidget {
 class _AddArticleScreenState extends State<AddArticleScreen> {
 
   final CollectionReference articlesRef = Firestore.instance.collection('articles');
+  final _search = TextEditingController();
   Stream<QuerySnapshot> _articles;
-  String _search;
   
   @override
   void initState() {
@@ -20,21 +20,31 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
   }
 
   void _searchFor(String text) {
+    print('SEARCHING: $text');
+
     setState(() {
-      _search = text;
+      _articles = ConcatStream(
+        text.toLowerCase()
+          .split(' ')
+          .map((word) => articlesRef.where('keywords', arrayContains: word).snapshots())
+      );
     });
-    ConcatStream(
-      text.split(' ')
-        .map((word) => articlesRef.where('keywords', arrayContains: word).snapshots())
-    ).toSet()
-      .then((Set<QuerySnapshot> unique) {
-        setState(() {
-          _articles = Stream.fromIterable(unique);
-        });
-      })
-      .catchError((err) {
-        print('Failed to query, ${err.message}');
-      });
+
+
+    // ConcatStream(
+    //   text.toLowerCase()
+    //     .split(' ')
+    //     .map((word) => articlesRef.where('keywords', arrayContains: word).snapshots())
+    // ).toSet()
+    //   .then((Set<QuerySnapshot> unique) {
+    //     print('THERE ARE ${unique.length} ARTICLES');
+    //     setState(() {
+    //       _articles = Stream.fromIterable(unique);
+    //     });
+    //   })
+    //   .catchError((err) {
+    //     print('Failed to query, ${err.message}');
+    //   });
   }
 
   @override
@@ -42,7 +52,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(100, 100),
-        child: TextField(
+        child: TextFormField(
           onChanged: _searchFor,
           decoration: InputDecoration(labelText: 'Search')
         ),

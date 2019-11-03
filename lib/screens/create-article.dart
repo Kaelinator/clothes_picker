@@ -85,17 +85,23 @@ class _CreateArticleState extends State<CreateArticle> {
       .setData({
         'imageUrl': _imageUrl,
         'name': _name.text,
-        'type': _type,
+        'type': _type,  
         'warmth': _warmth,
         'isRainFriendly': _isRainFriendly,
-        'keywords': _name.text.split(' ')
+        'keywords': _name.text.toLowerCase().split(' ')
       })
       .then((_) {
         print('created article of clothing');
-        Navigator.pop(context);
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Created article!')));
+        setState(() {
+          _errorText = _imageName = _imageUrl = _type = _warmth = null;
+          _isRainFriendly = _isUploadingImage = false;
+          _name.text = '';
+        });
       })
       .catchError((error) {
         print('Failed to create article of clothing: ${error.message}');
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Failed to create article')));
         setState(() {
           _errorText = error.message;
         });
