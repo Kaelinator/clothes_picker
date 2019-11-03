@@ -14,17 +14,18 @@ class ClothSlot extends StatefulWidget {
 
 class _ClothSlotState extends State<ClothSlot> {
 
-  final Article _article;
+  Article _article;
 
-  _ClothSlotState(this._article);
+  _ClothSlotState(this._article); 
 
-  void update(){
+  Future<void> update() async {
     print("Pressed: " + _article.name);
-    Navigator.pushNamed(
+    final result = await Navigator.pushNamed(
       context, 
-      '/view-article', 
-      arguments: ArticleArguments(_article.type)
+      '/add-custom-article', 
+      arguments: ArticleArguments(_article.type),
     );
+    
   }
 
   @override
@@ -35,7 +36,7 @@ class _ClothSlotState extends State<ClothSlot> {
         onTap: update,
         child: Container(
           child: Center(
-            child: Column(
+            child: Column(  
               children: <Widget>[
                 Text(_article.type, style: TextStyle(fontSize: 20),),
                 SizedBox(height: 15),

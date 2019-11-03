@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../widgets/CustomOutfitCard.dart';
 
 class RecommendPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
