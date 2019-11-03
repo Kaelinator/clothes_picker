@@ -9,9 +9,9 @@ class FitCreaterView extends StatefulWidget {
 class _FitCreaterViewState extends State<FitCreaterView> {
   final List<Article> articles = [
     new Article('default', "Hat",  AssetImage('assets/baseball_default.png')),
-    new Article('default', "Shirt",  AssetImage('assets/shirt_default.png')),
+    new Article('default', "Top",  AssetImage('assets/shirt_default.png')),
     new Article('default', "Accessory",  AssetImage('assets/add.png')),
-    new Article('default', "Pants",  AssetImage('assets/pants_default.png')),
+    new Article('default', "Bottom",  AssetImage('assets/pants_default.png')),
     new Article('default', "Accessory",  AssetImage('assets/add.png')),
     new Article('default', "Shoes",  AssetImage('assets/shoes_default.png')),
   ];

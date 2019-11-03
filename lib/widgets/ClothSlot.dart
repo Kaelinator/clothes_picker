@@ -1,3 +1,4 @@
+import 'package:clothes_picker/screens/add-article.dart';
 import 'package:clothes_picker/screens/tabs/createfit.dart';
 import 'package:flutter/material.dart';
 
@@ -19,9 +20,12 @@ class _ClothSlotState extends State<ClothSlot> {
   _ClothSlotState(this._article);
 
   void update(){
-     print("Pressed: " + _article.name);
-    setState(() {
-    });
+    print("Pressed: " + _article.name);
+    Navigator.pushNamed(
+      context, 
+      '/view-article', 
+      arguments: ArticleArguments(_article.type)
+    );
   }
 
   @override
