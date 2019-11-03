@@ -1,5 +1,6 @@
 import 'package:clothes_picker/screens/add-article.dart';
 import 'package:clothes_picker/screens/home.dart';
+import 'package:clothes_picker/screens/view-articles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './screens/auth/authenticate.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
           '/signin': (context) => SigninScreen(),
           '/signup': (context) => SignupScreen(),
           '/create-article': (context) => CreateArticleScreen(),
-          '/add-article': (context) => AddArticleScreen(settings.arguments)
+          '/add-article': (context) => AddArticleScreen(settings.arguments),
+          '/view-article': (context) => ViewArticlesScreen(settings.arguments)
         };
         WidgetBuilder builder = routes[settings.name];
         return MaterialPageRoute(builder: (ctx) => builder(ctx));

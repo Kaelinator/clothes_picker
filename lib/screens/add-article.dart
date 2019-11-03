@@ -5,8 +5,20 @@ import 'package:rxdart/rxdart.dart';
 
 class ArticleArguments {
   final String type;
+  Future<DocumentReference> _user;
 
   ArticleArguments(this.type);
+
+  Future<DocumentReference> getUser() {
+    if (_user == null) {
+      Future<DocumentReference> user = FirebaseAuth.instance.currentUser()
+      .then((FirebaseUser user) => Firestore.instance
+        .collection('users')
+        .document(user.uid));
+      return user;
+    }
+    return _user;
+  }
 }
 
 class AddArticleScreen extends StatefulWidget {
@@ -29,7 +41,6 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
   
   @override
   void initState() {
-    print('SEARCHING TYPE: ${_args.type}');
     _articles = articlesRef.where('type', isEqualTo: _args.type).snapshots();
     super.initState();
   }
@@ -47,15 +58,11 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
   }
 
   void _addToWardrobe(String documentID) {
-
-    FirebaseAuth.instance.currentUser()
-      .then((FirebaseUser user) => Firestore.instance
-        .collection('users')
-        .document(user.uid)
-        .setData({
-          'articles': { 'id': documentID, 'count': FieldValue.increment(1) }
-        }, merge: true))
-      .catchError((err) => print('Failed to add article, ${err.message}'));
+    _args.getUser()
+      .then((DocumentReference user) => user.setData({
+        'articles': { '$documentID': FieldValue.increment(1) }
+      }, merge: true))
+    .catchError((err) => print('Failed to add article, ${err.message}'));
   }
 
   @override
