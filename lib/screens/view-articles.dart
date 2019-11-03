@@ -83,7 +83,7 @@ class _ViewArticlesScreenState extends State<ViewArticlesScreen> {
                           if (snapshot.connectionState == ConnectionState.done) {
                             return ListTile(
                               leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(snapshot.data['article']["imageUrl"]) == null ? 
+                                  backgroundImage: NetworkImage(snapshot.data['article']["imageUrl"]) != null ? 
                                   NetworkImage(snapshot.data['article']["imageUrl"]) : 
                                   NetworkImage("https://www.iconsdb.com/icons/preview/black/square-xxl.png")
                                 ),

@@ -82,7 +82,13 @@ class _LoginState extends State<Login> {
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(200),
+                    height: ScreenUtil.getInstance().setHeight(50),
+                  ),
+                  Container(
+                    child: Image.asset('assets/logo.png', fit: BoxFit.cover),
+                  ),
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(25),
                   ),
                   Container(
                     width: double.infinity,

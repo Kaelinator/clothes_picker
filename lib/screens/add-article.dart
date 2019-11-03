@@ -120,7 +120,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
                                   print(document.data)
                                 },
                                 leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(document["imageUrl"]) == null ? 
+                                  backgroundImage: NetworkImage(document["imageUrl"]) != null ? 
                                   NetworkImage(document["imageUrl"]) : 
                                   NetworkImage("https://www.iconsdb.com/icons/preview/black/square-xxl.png")
                                 ),
