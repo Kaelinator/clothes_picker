@@ -4,21 +4,19 @@ class ClothSlot extends StatefulWidget {
 
   final String _title;
   final ImageProvider<dynamic> _img;
-  final double _size;
 
-  const ClothSlot(this._title, this._img, this._size);
+  const ClothSlot(this._title, this._img);
 
   @override
-  _ClothSlotState createState() => _ClothSlotState(_title, _img, _size);
+  _ClothSlotState createState() => _ClothSlotState(_title, _img);
 }
 
 class _ClothSlotState extends State<ClothSlot> {
 
   final String _title;
   final ImageProvider<dynamic> _img;
-  final double _size;
 
-  _ClothSlotState(this._title, this._img, this._size);
+  _ClothSlotState(this._title, this._img);
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +28,11 @@ class _ClothSlotState extends State<ClothSlot> {
           child: Center(
             child: Column(
               children: <Widget>[
-                Text(_title, style: TextStyle(fontSize: 10),),
+                Text(_title, style: TextStyle(fontSize: 20),),
                 SizedBox(height: 15),
                 Container(
-                  width: _size,
-                  height: _size,
+                  width: 100,
+                  height: 100,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: _img,

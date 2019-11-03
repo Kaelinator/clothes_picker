@@ -14,12 +14,12 @@ class FitCreaterView extends StatelessWidget {
           mainAxisSpacing: 10,
           crossAxisCount: 2,
           children: <Widget>[
-            ClothSlot("Hat", AssetImage('assets/baseball_default.png'), 100),
-            ClothSlot("Shirt", AssetImage('assets/shirt_default.jpg'), 100),
-            ClothSlot("Accessory", AssetImage('assets/add.png'), 100),
-            ClothSlot("Pants", AssetImage('assets/pants_default.png'), 100),
-            ClothSlot("Accessory", AssetImage('assets/add.png'), 100),
-            ClothSlot("Shoes", AssetImage('assets/shoes_default.png'), 100),	
+            ClothSlot("Hat", AssetImage('assets/baseball_default.png')),
+            ClothSlot("Shirt", AssetImage('assets/shirt_default.jpg'),),
+            ClothSlot("Accessory", AssetImage('assets/add.png')),
+            ClothSlot("Pants", AssetImage('assets/pants_default.png')),
+            ClothSlot("Accessory", AssetImage('assets/add.png')),
+            ClothSlot("Shoes", AssetImage('assets/shoes_default.png')),	
           ],
         )
       ),
