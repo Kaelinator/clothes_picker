@@ -65,10 +65,10 @@ class Article {
     count = data['count'];
     if (data['article'] == null)
       return;
-      
+
     type = data['article']['type'];
     name = data['article']['name'];
-    if (data['article']['imageUrl'])
+    if (data['article']['imageUrl'] != null)
       img = NetworkImage(data['article']['imageUrl']);
   }
 }
