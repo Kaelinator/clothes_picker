@@ -21,7 +21,7 @@ class AuthHandler extends StatefulWidget {
 
 class _AuthHandlerState extends State<AuthHandler> {
 
-  FirebaseUser user;
+  FirebaseUser _user;
 
   @override
   void initState() {
@@ -30,12 +30,13 @@ class _AuthHandlerState extends State<AuthHandler> {
 
     FirebaseAuth.instance.onAuthStateChanged
       .listen(_handleAuth);
+    
     super.initState();
   }
 
   void _handleAuth(FirebaseUser user) {
     setState(() {
-      this.user = user;
+      _user = user;
     });
 
     if (user == null) {

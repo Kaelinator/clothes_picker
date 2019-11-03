@@ -1,16 +1,30 @@
+import 'dart:io';
+
+import 'package:clothes_picker/screens/auth/authenticate.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:clothes_picker/screens/home.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 
-class ProfileView extends StatelessWidget {
-  final String _fullName = "Randy Kirk";
-  final String _bio =
-      "\"Hi, I am a Freelance developer working for hourly basis. If you wants to contact me to build your product leave a message.\"";
+class ProfileView extends StatefulWidget {
+
+  final FirebaseUser _user;
+
+  ProfileView(this._user);
+
+  @override
+  _ProfileViewState createState() => _ProfileViewState(_user);
+}
+
+class _ProfileViewState extends State<ProfileView> {
   final String _followers = "173";
   final String _customfits = "11";
   final String _likes = "450";
 
+  FirebaseUser _user;
+  _ProfileViewState(this._user);
   
   void _signOut() {
     FirebaseAuth.instance.signOut()
@@ -39,8 +53,56 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildProfileImage() {
     return Center(
-      child: _imageButton( (){print("change image");}, 140.0, 140.0, NetworkImage("https://s.hdnux.com/photos/52/31/41/11114611/5/920x920.jpg")),
+      child: _imageButton(_changeProfileImage, 140.0, 140.0,
+        _user.photoUrl != null
+          ? NetworkImage(_user.photoUrl)
+          : NetworkImage('https://www.clipartwiki.com/clipimg/detail/197-1979569_no-profile.png'
+        )
+      ),
     );
+  }
+
+  void _changeProfileImage() {
+    StorageReference articleRef = FirebaseStorage.instance.ref().child('profile-images');
+    String filename = _user.uid;
+
+    if (_user.photoUrl != null) {
+      // replace old image
+      articleRef.child(filename)
+        .delete()
+        .then((_) => print('deleted old image'))
+        .catchError((err) => print('Failed to delete image: ${err.message}'));
+    }
+
+    ImagePicker.pickImage(source: ImageSource.gallery)
+      .then((File image) {
+
+        articleRef
+          .child(filename)
+          .putFile(image)
+          .onComplete
+          .then((StorageTaskSnapshot snapshot) {
+            print('Uploading: $filename');
+            snapshot.ref.getDownloadURL()
+              .then((dynamic url) {
+                print('URL: $url');
+                _user.updateProfile(UserUpdateInfo()..photoUrl = url)
+                  .then((_) {
+                    print('sucessfully set photoUrl to $url');
+                    _user.reload()
+                      .then((_) => FirebaseAuth.instance.currentUser())
+                      .then((FirebaseUser user) {
+                        print('reloaded user');
+                        setState(() {
+                          _user = user;
+                        });
+                      })
+                      .catchError((err) => print('error reloading user, ${err.message}'));
+                  })
+                  .catchError((err) => print('error setting photoUrl, ${err.message}'));
+              });
+          });
+      });
   }
 
   Widget _imageButton(Function _onClick, double width, double height, ImageProvider<dynamic> image){
@@ -73,7 +135,7 @@ class ProfileView extends StatelessWidget {
     );
 
     return Text(
-      _fullName,
+      _user.displayName ?? '',
       style: _nameTextStyle,
     );
   }
@@ -129,26 +191,6 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildBio(BuildContext context) {
-    TextStyle bioTextStyle = TextStyle(
-      fontFamily: 'Spectral',
-      fontWeight: FontWeight.w400,//try changing weight to w500 if not thin
-      fontStyle: FontStyle.italic,
-      color: Color(0xFF799497),
-      fontSize: 16.0,
-    );
-
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        _bio,
-        textAlign: TextAlign.center,
-        style: bioTextStyle,
-      ),
-    );
-  }
-
   Widget _buildSeparator(Size screenSize) {
     return Container(
       width: screenSize.width,
@@ -158,16 +200,6 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildGetInTouch(BuildContext context) {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      padding: EdgeInsets.only(top: 8.0),
-      child: Text(
-        "Get in Touch with ${_fullName.split(" ")[0]},",
-        style: TextStyle(fontFamily: 'Roboto', fontSize: 16.0),
-      ),
-    );
-  }
 
   Widget _buildButtons() {
     return Padding(

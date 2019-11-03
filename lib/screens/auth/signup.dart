@@ -22,14 +22,14 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
 
-  final _formKey = GlobalKey<FormState>();
-  final pass = TextEditingController();
-  final confirmPass = TextEditingController();
-  final email = TextEditingController();
+  final _pass = TextEditingController();
+  final _confirmPass = TextEditingController();
+  final _email = TextEditingController();
+  final _displayName = TextEditingController();
   String errorText;
 
   void _createAccount(BuildContext context) {
-    if (pass.text.length < 1 || pass.text != confirmPass.text || email.text.length < 1) {
+    if (_pass.text.length < 1 || _pass.text != _confirmPass.text || _email.text.length < 1) {
       /* bad input */
       setState(() {
         errorText = 'incomplete form';
@@ -42,15 +42,22 @@ class _SignupState extends State<Signup> {
     });
 
     FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email.text,
-      password: pass.text
+      email: _email.text,
+      password: _pass.text
     ).then((AuthResult result) {
       FirebaseUser user = result.user;
       print('Created user ${user.uid}');
-      return Firestore.instance.collection('users')
+      return user.updateProfile(UserUpdateInfo()..displayName = _displayName.text)
+        .then((_) => Firestore.instance.collection('users')
         .document(user.uid)
         .setData({
           'isAdmin': false
+        }))
+        .catchError((err) {
+          print('Failed to create user ${err.message}, deleting user');
+          user.delete()
+            .then((_) => print('deleted user: ${user.uid}'))
+            .catchError((err) => print('Failed to delete user, ${err.message}'));
         });
     })
     .then((_) => print('created new user in users'))
@@ -71,8 +78,7 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
-    ScreenUtil.instance =
-        ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
     return new Scaffold(  
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
@@ -90,7 +96,6 @@ class _SignupState extends State<Signup> {
                   Container(
                     width: double.infinity,
                     height: ScreenUtil.getInstance().setHeight(600),
-                    
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
@@ -107,7 +112,6 @@ class _SignupState extends State<Signup> {
                         ),
                       ],
                     ),
-
                     child: Padding(
                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
                       child: Column(
@@ -119,23 +123,35 @@ class _SignupState extends State<Signup> {
                                 fontFamily: "Poppins-Bold",
                             letterSpacing: .6)
                           ),
-                          Text("Username",
+                          Text("Display Name",
+                            style: TextStyle(
+                                fontFamily: "Poppins-Medium",
+                                fontSize: ScreenUtil.getInstance().setSp(26))
+                            ),
+                          TextFormField(
+                            controller: _displayName,
+                            decoration: InputDecoration(
+                              hintText: "Bevo Longhorn",
+                              hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
+                          ),
+                          SizedBox(
+                            height: ScreenUtil.getInstance().setHeight(30),
+                          ),
+                          Text("Email",
                             style: TextStyle(
                                 fontFamily: "Poppins-Medium",
                                 fontSize: ScreenUtil.getInstance().setSp(26))
                             ),
                           TextFormField(
                             keyboardType: TextInputType.emailAddress,
-                            controller: email,
+                            controller: _email,
                             decoration: InputDecoration(
-                              hintText: "Username",
+                              hintText: "bevo@longhorn.edu",
                               hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
                           ),
-
                           SizedBox(
                             height: ScreenUtil.getInstance().setHeight(30),
                           ),
-
                           Text("Password",
                             style: TextStyle(
                                 fontFamily: "Poppins-Medium",
@@ -144,16 +160,14 @@ class _SignupState extends State<Signup> {
                           TextFormField(
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: true,
-                            controller: pass,
+                            controller: _pass,
                             decoration: InputDecoration(
                                 hintText: "Password",
                                 hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
                           ),
-
                           SizedBox(
                             height: ScreenUtil.getInstance().setHeight(30),
                           ),
-
                           Text("Confirm Password",
                             style: TextStyle(
                                 fontFamily: "Poppins-Medium",
@@ -162,7 +176,7 @@ class _SignupState extends State<Signup> {
                           TextFormField(
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: true,
-                            controller: confirmPass,
+                            controller: _confirmPass,
                             decoration: InputDecoration(
                                 hintText: "Confirm Password",
                                 hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
@@ -171,7 +185,6 @@ class _SignupState extends State<Signup> {
                       )
                     )
                   ),
-
                   SizedBox(height: ScreenUtil.getInstance().setHeight(40)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -198,11 +211,13 @@ class _SignupState extends State<Signup> {
                               onTap: () => Navigator.pushNamed(context, '/signin'),
                               child: Center(
                                 child: Text("Login",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: "Poppins-Bold",
-                                        fontSize: 18,
-                                        letterSpacing: 1.0)),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "Poppins-Bold",
+                                    fontSize: 18,
+                                    letterSpacing: 1.0
+                                  )
+                                ),
                               ),
                             ),
                           ),
