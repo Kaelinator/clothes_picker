@@ -58,7 +58,7 @@ class _LoginState extends State<Login> {
 
     return (Text(_errorText,
             style: TextStyle(
-                fontSize: ScreenUtil.getInstance().setSp(40),
+                fontSize: ScreenUtil.getInstance().setSp(30),
                 fontFamily: "Poppins-Medium",
                 color: Colors.red,
             letterSpacing: .6)
@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
-    return new Scaffold(  
+    return new Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
       body: Stack(
@@ -86,8 +86,8 @@ class _LoginState extends State<Login> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: ScreenUtil.getInstance().setHeight(650),
-                    
+                    height: ScreenUtil.getInstance().setHeight(650 + (_errorText == null ? 0.0 : 100.0)),
+
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
@@ -185,7 +185,7 @@ class _LoginState extends State<Login> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: "Poppins-Bold",
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         letterSpacing: 1.0)),
                               ),
                             ),
@@ -217,7 +217,7 @@ class _LoginState extends State<Login> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: "Poppins-Bold",
-                                        fontSize: 18,
+                                        fontSize: 14,
                                         letterSpacing: 1.0)),
                               ),
                             ),
@@ -226,7 +226,7 @@ class _LoginState extends State<Login> {
                       ),
                     ],
                   ),
-                
+
                 ],
               ),
             ),
