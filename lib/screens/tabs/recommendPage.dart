@@ -19,7 +19,8 @@ class RecommendPage extends StatelessWidget {
                   SizedBox(height: 15),
                   Text('My Custom Fits', style: getTextStyle()),
                   SizedBox(height: 10),
-                  CustomFitCard()
+                  CustomFitCard(),
+                  SizedBox(height: 15),
                 ]
               )
             )
