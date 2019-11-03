@@ -44,17 +44,19 @@ class _AuthHandlerState extends State<AuthHandler> {
       _isAdmin = false;
     });
 
-    if (_user == null) return;
+    print(user?.uid);
+
+    if (user == null) return;
 
     Firestore.instance.collection('users')
       .document(user.uid)
       .get()
       .then((DocumentSnapshot doc) {
         setState(() {
-          _isAdmin = doc.data['isAdmin'];
+          _isAdmin = doc.data == null ? false : doc.data['isAdmin'];
         });
       })
-      .catchError((err) => print('Failed to get user data, ${err.message}'));
+      .catchError((err) => print('Failed to get user data, $err'));
   }
 
   @override

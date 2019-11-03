@@ -64,6 +64,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
       .then((DocumentReference user) => user.setData({
         'articles': { '$documentID': FieldValue.increment(1) }
       }, merge: true))
+      .then((_) => Navigator.popUntil(context, ModalRoute.withName('/')))
     .catchError((err) => print('Failed to add article, ${err.message}'));
   }
 

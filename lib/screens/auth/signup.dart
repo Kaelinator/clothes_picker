@@ -28,7 +28,7 @@ class _SignupState extends State<Signup> {
   final _displayName = TextEditingController();
   String errorText;
 
-  void _createAccount(BuildContext context) {
+  void _createAccount() {
     if (_pass.text.length < 1 || _pass.text != _confirmPass.text
     || _email.text.length < 1 || _displayName.text.length < 1) {
       /* bad input */
@@ -50,18 +50,21 @@ class _SignupState extends State<Signup> {
       print('Created user ${user.uid}');
       return user.updateProfile(UserUpdateInfo()..displayName = _displayName.text)
         .then((_) => Firestore.instance.collection('users')
-        .document(user.uid)
-        .setData({
-          'isAdmin': false
-        }))
-        .catchError((err) {
-          print('Failed to create user ${err.message}, deleting user');
-          user.delete()
-            .then((_) => print('deleted user: ${user.uid}'))
-            .catchError((err) => print('Failed to delete user, ${err.message}'));
-        });
+          .document(user.uid)
+          .setData({
+            'isAdmin': false
+          }))
+          .catchError((err) {
+            print('Failed to create user ${err.message}, deleting user');
+            user.delete()
+              .then((_) => print('deleted user: ${user.uid}'))
+              .catchError((err) => print('Failed to delete user, ${err.message}'));
+          });
     })
-    .then((_) => print('created new user in users'))
+    .then((_) {
+      print('created new user in users');
+      Navigator.pop(context);
+    })
     .catchError((dynamic err) {
       setState(() {
         errorText = err.message;
@@ -251,7 +254,7 @@ class _SignupState extends State<Signup> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () => _createAccount(context),
+                              onTap: _createAccount,
                               child: Center(
                                 child: Text("Create Account",
                                     style: TextStyle(
