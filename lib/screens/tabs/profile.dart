@@ -4,8 +4,9 @@ import 'package:clothes_picker/screens/auth/authenticate.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:clothes_picker/screens/home.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:image_picker/image_picker.dart';
 
 class ProfileView extends StatefulWidget {
@@ -49,27 +50,29 @@ class _ProfileViewState extends State<ProfileView> {
       height: screenSize.height / 2.6,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage("https://storage.pixteller.com/designs/designs-images/2019-03-27/05/simple-background-backgrounds-passion-simple-1-5c9b95bd34713.png"),
+          image: AssetImage('assets/profile_bg.png'),
           fit: BoxFit.cover,
         ),
       ),
       child: Column(
         children: <Widget>[
           SizedBox(height: 50),
-          _buildProfileImage(),
-          _buildFullName()
+          _profileImage(),
+          Text(
+            _user.displayName ?? '',
+            style: getTextStyle(),
+          )
         ],
       )
     );
   }
 
-  Widget _buildProfileImage() {
+  Widget _profileImage() {
     return Center(
       child: _imageButton(_changeProfileImage, 140.0, 140.0,
         _user.photoUrl != null
           ? NetworkImage(_user.photoUrl)
-          : NetworkImage('https://www.clipartwiki.com/clipimg/detail/197-1979569_no-profile.png'
-        )
+          : NetworkImage('https://www.clipartwiki.com/clipimg/detail/197-1979569_no-profile.png')
       ),
     );
   }
@@ -122,12 +125,12 @@ class _ProfileViewState extends State<ProfileView> {
       child: new InkWell(// this is the one you are looking for..........
         onTap: _onClick,
         child: new Container(
-          width: width,
-          height: height,
-          padding: const EdgeInsets.all(20.0),//I used some padding without fixed width and height
+          width: 140,
+          height: 140,
+          padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             image: DecorationImage(
-              image:  image,
+              image:  NetworkImage("https://s.hdnux.com/photos/52/31/41/11114611/5/920x920.jpg"),
               fit: BoxFit.cover,
             ),
             shape: BoxShape.circle,
@@ -244,10 +247,48 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
+  void _showDialog(BuildContext context) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Are you really washing your clothes?"),
+          content: new Text("Confirming means you will reset your worn clothes for this week."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Back"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Confirm"),
+              onPressed: () {
+                _resetWardrobe();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _resetWardrobe() {
+    print("Resetting Wardrobe");
+    return;
+  }
+
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
+    ScreenUtil.instance =
+      ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -256,20 +297,50 @@ class _ProfileViewState extends State<ProfileView> {
               child: Column(
                 children: <Widget>[
                   _buildCoverImage(screenSize),
-                  _buildStatus(context),
                   _buildStatContainer(),
                   _buildSeparator(screenSize),
                   SizedBox(height: 8.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text("Wardrobe", style: getTextStyle()),    
-                      _imageButton(() => Navigator.pushNamed(context, '/add-article'), 30.0, 30.0, NetworkImage("http://pngimages.net/sites/default/files/plus-png-image-59147.png"))
-                    ],
+                  Text("Wardrobe", style: getTextStyle()),
+                  CategoryName("Hats"),
+                  CategoryName("Tops"),
+                  CategoryName("Bottoms"),
+                  CategoryName("Shoes"),
+                  CategoryName("Accessories"),
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(60),
                   ),
-                  SizedBox(height: 4.0),
-                  CustomFitCard(),
-                  SizedBox(height: 8.0),
+                  InkWell(
+                    child: Container(
+                      width: ScreenUtil.getInstance().setWidth(600),
+                      height: ScreenUtil.getInstance().setHeight(100),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [
+                            Color(0xFFFF0000),
+                            Color(0xFFA13D2D)
+                          ]),
+                          borderRadius: BorderRadius.circular(6.0),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xFF6078ea).withOpacity(.3),
+                                offset: Offset(0.0, 8.0),
+                                blurRadius: 8.0)
+                          ]),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () =>_showDialog(context),
+                          child: Center(
+                            child: Text("Wash Clothing (Reset)",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "Poppins-Bold",
+                                    fontSize: 16,
+                                    letterSpacing: 1.0)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   _buildButtons(),
                 ],
               ),
@@ -281,46 +352,6 @@ class _ProfileViewState extends State<ProfileView> {
   }
 }
 
-class CustomFitCard extends StatefulWidget {
-    @override
-    _CustomFitCardState createState() => _CustomFitCardState();
-  }
-  
-  class _CustomFitCardState extends State<CustomFitCard> {
-    @override
-    Widget build(BuildContext context) {
-      return CarouselSlider(
-        height: 200.0,
-        items: [1,2,3,4,5].map((i) {
-          return Builder(
-            builder: (BuildContext context) {
-              return Container(
-                width: MediaQuery.of(context).size.width / 1.5,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(0, 15),
-                      blurRadius: 15
-                    ),
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(0, -10),
-                      blurRadius: 15
-                    ),
-                  ]
-                ),
-                child: Text('text $i', style: TextStyle(fontSize: 16.0),)
-              );
-            },
-          );
-        }).toList(),
-      );
-    }
-  } 
 
  TextStyle getTextStyle(){
    TextStyle _nameTextStyle = TextStyle(
@@ -332,3 +363,57 @@ class CustomFitCard extends StatefulWidget {
 
     return _nameTextStyle;
  }
+
+class CategoryName extends StatelessWidget {
+  final String categoryName;
+
+  const CategoryName(this.categoryName);
+
+  @override
+  Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
+    ScreenUtil.instance =
+      ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
+    return Container(
+      child: Column(
+        children: <Widget>[
+          SizedBox(
+              height: ScreenUtil.getInstance().setHeight(60),
+            ),
+          InkWell(
+            child: Container(
+              width: ScreenUtil.getInstance().setWidth(600),
+              height: ScreenUtil.getInstance().setHeight(100),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Color(0xFF17ead9),
+                    Color(0xFF6078ea)
+                  ]),
+                  borderRadius: BorderRadius.circular(6.0),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color(0xFF6078ea).withOpacity(.3),
+                        offset: Offset(0.0, 8.0),
+                        blurRadius: 8.0)
+                  ]),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  // onTap: () => Navigator.pushNamed(context, categoryName),
+                  child: Center(
+                    child: Text(categoryName,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Poppins-Bold",
+                            fontSize: 16,
+                            letterSpacing: 1.0)),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ]
+      )
+    );
+  }
+}

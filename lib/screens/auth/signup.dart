@@ -33,7 +33,7 @@ class _SignupState extends State<Signup> {
     || _email.text.length < 1 || _displayName.text.length < 1) {
       /* bad input */
       setState(() {
-        errorText = 'incomplete form';
+        errorText = 'Incomplete form';
       });
       return;
     }
@@ -71,9 +71,15 @@ class _SignupState extends State<Signup> {
 
   Widget _showError() {
     if (errorText == null)
-      return Container();
+      return SizedBox(height: ScreenUtil.getInstance().setHeight(50));
 
-    return Text('$errorText', style: TextStyle(color: Colors.redAccent, fontSize: 20));
+    return (Text(errorText,
+            style: TextStyle(
+                fontSize: ScreenUtil.getInstance().setSp(40),
+                fontFamily: "Poppins-Medium",
+                color: Colors.red,
+            letterSpacing: .6)
+          ));
   }
 
   @override
@@ -183,6 +189,8 @@ class _SignupState extends State<Signup> {
                                 hintText: "Confirm Password",
                                 hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
                           ),
+                          _showError(),
+
                         ],
                       )
                     )
