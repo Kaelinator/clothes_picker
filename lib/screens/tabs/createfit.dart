@@ -17,12 +17,12 @@ class _FitCreaterViewState extends State<FitCreaterView> {
     new Article('default', "Shoes",  AssetImage('assets/shoes_default.png')),
   ];
 
-  Fit fit = Fit(defaultArticles[0], defaultArticles[1], defaultArticles[2], defaultArticles[3], defaultArticles[4], defaultArticles[5]);
+  Outfit fit = Outfit.fromList(defaultArticles);
 
 
   void createFit(articles){
     setState(() { 
-      this.fit = Fit(articles[0], articles[1], articles[2], articles[3], articles[4], articles[5]);
+      this.fit = Outfit.fromList(articles);
     });
     print("create fit");
   }
@@ -51,24 +51,50 @@ class _FitCreaterViewState extends State<FitCreaterView> {
   }
 }
 
-class Article{
+class Article {
 
-  final String type;
-  final String name;
-  final ImageProvider<dynamic> img; 
+  String type;
+  String name;
+  ImageProvider<dynamic> img; 
+  int count;
 
   Article(this.name, this.type, this.img);
+
+  Article.fromMap(Map<String, dynamic> data) {
+    print('THIS IS DATA: $data');
+    count = data['count'];
+    if (data['article'] == null)
+      return;
+      
+    type = data['article']['type'];
+    name = data['article']['name'];
+    if (data['article']['imageUrl'])
+      img = NetworkImage(data['article']['imageUrl']);
+  }
 }
 
-class Fit{
-  final Article hat;
-  final Article top;
-  final Article bottom;
-  final Article shoes;
-  final Article accessory1;
-  final Article accessory2;
+class Outfit {
+  Article hat;
+  Article top;
+  Article bottom;
+  Article shoes;
+  Article accessory1;
+  Article accessory2;
 
-  Fit(this.hat, this.top, this.bottom, this.shoes, this.accessory1, this.accessory2);
+  Outfit.fromList(List<Article> fit) {
+    hat = _get(fit, 0);
+    top = _get(fit, 1);
+    bottom = _get(fit, 2);
+    shoes = _get(fit, 3);
+    accessory1 = _get(fit, 4);
+    accessory2 = _get(fit, 5);
+  }
+
+  Outfit({this.hat, this.top, this.bottom, this.shoes, this.accessory1, this.accessory2});
+
+  Article _get(List<Article> fit, int i) {
+    return fit.length > i ? fit[i] : null;
+  }
 
   getAsList(){
     return [hat, top, bottom, shoes, accessory1, accessory2];

@@ -15,9 +15,9 @@ class ArticleArguments {
   Future<DocumentReference> getUser() {
     if (_user == null) {
       Future<DocumentReference> user = FirebaseAuth.instance.currentUser()
-      .then((FirebaseUser user) => Firestore.instance
-        .collection('users')
-        .document(user.uid));
+        .then((FirebaseUser user) => Firestore.instance
+          .collection('users')
+          .document(user.uid));
       return user;
     }
     return _user;
