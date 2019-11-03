@@ -102,7 +102,7 @@ class _SignupState extends State<Signup> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: ScreenUtil.getInstance().setHeight(800 + (errorText == null ? 0.0 : 50.0)),
+                    height: ScreenUtil.getInstance().setHeight(850 + (errorText == null ? 0.0 : 75.0)),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
@@ -130,7 +130,6 @@ class _SignupState extends State<Signup> {
                                 fontFamily: "Poppins-Bold",
                             letterSpacing: .6)
                           ),
-                          _showError(),
                           Text("Display Name",
                             style: TextStyle(
                                 fontFamily: "Poppins-Medium",
@@ -224,7 +223,7 @@ class _SignupState extends State<Signup> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: "Poppins-Bold",
-                                    fontSize: 18,
+                                    fontSize: 14,
                                     letterSpacing: 1.0
                                   )
                                 ),
@@ -258,7 +257,7 @@ class _SignupState extends State<Signup> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: "Poppins-Bold",
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         letterSpacing: 1.0)),
                               ),
                             ),

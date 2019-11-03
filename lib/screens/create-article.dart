@@ -4,6 +4,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 const List<String> CLOTHING_TYPES = <String>[
   'Hats',
@@ -157,69 +159,156 @@ class _CreateArticleState extends State<CreateArticle> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                controller: _name,
-                decoration: InputDecoration(labelText: 'Name')
-              ),
-              MaterialButton(
-                child: Text(
-                  '${_isUploadingImage ? 'Uploading' : (_imageName == null) ? 'Add' : 'Change'} image'
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
+    return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomPadding: true,
+
+      body: Stack(
+        children: <Widget>[
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 60.0),
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    controller: _name,
+                    decoration: InputDecoration(
+                      hintText: "Name",
+                      hintStyle: TextStyle(color: Colors.grey, fontSize: 18.0)),
                   ),
-                onPressed: _setImage,
-              ),
-              Row(
-                children: <Widget>[
-                  const Text('Type:'),
-                  DropdownButton<String>(
-                    value: _type,
-                    items: CLOTHING_TYPES.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: _setType,
-                  )
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  const Text('Warmth:'),
-                  DropdownButton<String>(
-                    value: _warmth,
-                    items: WARMTH_TYPES.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: _setWarmth,
-                  )
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Checkbox(
-                    value: _isRainFriendly,
-                    onChanged: _setIsRainFriendly,
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(30),
                   ),
-                  const Text('Rain friendly'),
+                  InkWell(
+                    child: Container(
+                      width: ScreenUtil.getInstance().setWidth(300),
+                      height: ScreenUtil.getInstance().setHeight(100),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [
+                            Color(0xFF17ead9),
+                            Color(0xFF6078ea)
+                          ]),                          borderRadius: BorderRadius.circular(6.0),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xFF6078ea).withOpacity(.3),
+                                offset: Offset(0.0, 8.0),
+                                blurRadius: 8.0)
+                          ]),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => _setImage,
+                          child: Center(
+                            child: Text('${_isUploadingImage ? 'Uploading' : (_imageName == null) ? 'Add' : 'Change'} image',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "Poppins-Bold",
+                                    fontSize: 18,
+                                    letterSpacing: 1.0)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Type:",
+                        style: TextStyle(
+                            fontFamily: "Poppins-Medium",
+                            fontSize: ScreenUtil.getInstance().setSp(32))
+                        ),
+                      DropdownButton<String>(
+                        value: _type,
+                        items: CLOTHING_TYPES.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value,
+                              style: TextStyle(
+                                  fontFamily: "Poppins-Medium",
+                                  fontSize: ScreenUtil.getInstance().setSp(32))
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: _setType,
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Warmth:",
+                            style: TextStyle(
+                                fontFamily: "Poppins-Medium",
+                                fontSize: ScreenUtil.getInstance().setSp(32))
+                            ),
+                      DropdownButton<String>(
+                        value: _warmth,
+                        items: WARMTH_TYPES.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value,
+                              style: TextStyle(
+                                fontFamily: "Poppins-Medium",
+                                fontSize: ScreenUtil.getInstance().setSp(32))
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: _setWarmth,
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Checkbox(
+                        value: _isRainFriendly,
+                        onChanged: _setIsRainFriendly,
+                      ),
+                      Text("Rain Friendly:",
+                            style: TextStyle(
+                                fontFamily: "Poppins-Medium",
+                                fontSize: ScreenUtil.getInstance().setSp(32))
+                            ),
+                    ],
+                  ),
+                  _showError(),
+                  InkWell(
+                    child: Container(
+                      width: ScreenUtil.getInstance().setWidth(600),
+                      height: ScreenUtil.getInstance().setHeight(100),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [
+                            Color(0xFF17ead9),
+                            Color(0xFF6078ea)
+                          ]),
+                          borderRadius: BorderRadius.circular(6.0),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xFF6078ea).withOpacity(.3),
+                                offset: Offset(0.0, 8.0),
+                                blurRadius: 8.0)
+                          ]),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => _createArticle(context),
+                          child: Center(
+                            child: Text("Create Clothing",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "Poppins-Bold",
+                                    fontSize: 18,
+                                    letterSpacing: 1.0)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              _showError(),
-              MaterialButton(
-                child: const Text('Create Clothing'),
-                onPressed: () => _createArticle(context),
-              )
-            ],
-          ),
-        )
+            )
+          )
+        ]
       )
     );
   }
