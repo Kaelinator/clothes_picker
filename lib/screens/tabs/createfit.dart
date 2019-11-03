@@ -7,6 +7,7 @@ class FitCreaterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        color: Colors.red,
         child: GridView.count(
           primary: false,
           padding: const EdgeInsets.all(20),
@@ -15,7 +16,7 @@ class FitCreaterView extends StatelessWidget {
           crossAxisCount: 2,
           children: <Widget>[
             ClothSlot("Hat", AssetImage('assets/baseball_default.png')),
-            ClothSlot("Shirt", AssetImage('assets/shirt_default.jpg'),),
+            ClothSlot("Shirt", AssetImage('assets/shirt_default.png'),),
             ClothSlot("Accessory", AssetImage('assets/add.png')),
             ClothSlot("Pants", AssetImage('assets/pants_default.png')),
             ClothSlot("Accessory", AssetImage('assets/add.png')),

@@ -41,7 +41,7 @@ class CustomFitCard extends StatefulWidget {
                           width: _size,
                           height: _size,
                           decoration: BoxDecoration(
-                            image: DecorationImage(image: AssetImage('assets/shirt_default.jpg'))
+                            image: DecorationImage(image: AssetImage('assets/shirt_default.png'))
                           ),
                         ),
                         Container(

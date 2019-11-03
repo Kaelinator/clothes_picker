@@ -46,7 +46,9 @@ class HomeScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: getBackgroundColor(),
             bottom: TabBar(tabs: _buildTabs()),
-            title: Center(child: Text('CloutFit', style: TextStyle(color: getTextColor()))),
+            title: Center(
+              child:Image.asset('assets/logo.png', fit: BoxFit.cover),
+              ),
             automaticallyImplyLeading: false,
           ),
           body: TabBarView(
