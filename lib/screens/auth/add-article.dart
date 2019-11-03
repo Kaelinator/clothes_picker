@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -34,7 +35,6 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
   }
 
   void _searchFor(String text) {
-    print('SEARCHING: $text');
     setState(() {
       _articles = ConcatStream(
         text.toLowerCase()
@@ -44,6 +44,18 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
             .where('keywords', arrayContains: word).snapshots())
       );
     });
+  }
+
+  void _addToWardrobe(String documentID) {
+
+    FirebaseAuth.instance.currentUser()
+      .then((FirebaseUser user) => Firestore.instance
+        .collection('users')
+        .document(user.uid)
+        .setData({
+          'cleanArticles': FieldValue.arrayUnion([documentID])
+        }, merge: true))
+      .catchError((err) => print('Failed to add article, ${err.message}'));
   }
 
   @override
@@ -66,6 +78,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
               return ListView(
                 children: snapshot.data.documents.map((DocumentSnapshot document) {
                   return ListTile(
+                    onTap: () => _addToWardrobe(document.documentID),
                     title: Text(document['name'])
                   );
                 }).toList()
