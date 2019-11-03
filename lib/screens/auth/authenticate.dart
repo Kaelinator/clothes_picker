@@ -53,7 +53,7 @@ class _AuthHandlerState extends State<AuthHandler> {
       .get()
       .then((DocumentSnapshot doc) {
         setState(() {
-          _isAdmin = doc.data == null ? false : doc.data['isAdmin'];
+          _isAdmin = (doc.data == null || doc.data['isAdmin'] == null) ? false : doc.data['isAdmin'];
         });
       })
       .catchError((err) => print('Failed to get user data, $err'));
