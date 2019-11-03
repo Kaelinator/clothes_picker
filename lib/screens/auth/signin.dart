@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SigninScreen extends StatelessWidget {
   @override
@@ -60,6 +61,9 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
+    ScreenUtil.instance =
+        ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
     return new Scaffold(  
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
@@ -71,65 +75,140 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 60.0),
               child: Column(
                 children: <Widget>[
-                    Container(
-                      width: double.infinity,
-                      height: 500,
-                      
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                        boxShadow: [
+                  Container(
+                    width: double.infinity,
+                    height: ScreenUtil.getInstance().setHeight(500),
+                    
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0.0, 15.0),
+                          blurRadius: 15.0
+                        ),
                           BoxShadow(
-                            color: Colors.black12,
-                            offset: Offset(0.0, 15.0),
-                            blurRadius: 15.0
+                          color: Colors.black12,
+                          offset: Offset(0.0, -10.0),
+                          blurRadius: 15.0
+                        ),
+                      ],
+                    ),
+
+
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Login",
+                            style: TextStyle(
+                                fontSize: ScreenUtil.getInstance().setSp(45),
+                                fontFamily: "Poppins-Bold",
+                            letterSpacing: .6)
                           ),
-                           BoxShadow(
-                            color: Colors.black12,
-                            offset: Offset(0.0, -10.0),
-                            blurRadius: 15.0
+                          Text("Username",
+                            style: TextStyle(
+                                fontFamily: "Poppins-Medium",
+                                fontSize: ScreenUtil.getInstance().setSp(26))
+                            ),
+                          TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            controller: email,
+                            decoration: InputDecoration(
+                              hintText: "Username",
+                              hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
+                          ),
+
+                          Text("Password",
+                            style: TextStyle(
+                                fontFamily: "Poppins-Medium",
+                                fontSize: ScreenUtil.getInstance().setSp(26))
+                            ),
+                          TextFormField(
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: true,
+                            controller: pass,
+                            decoration: InputDecoration(
+                                hintText: "Password",
+                                hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
                           ),
                         ],
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-                        child: Column(
-                          children: <Widget>[
-                            Text("Login",
-                              style: TextStyle(
-                                  fontSize: 45,
-                                  fontFamily: "Poppins-Medium",
-                              letterSpacing: .6)
-                            ),
-                            TextFormField(
-                              keyboardType: TextInputType.emailAddress,
-                              controller: email,
-                              decoration: InputDecoration(hintText: 'Email'),
-                            ),
-                            TextFormField(
-                              keyboardType: TextInputType.visiblePassword,
-                              obscureText: true,
-                              controller: pass,
-                              decoration: InputDecoration(hintText: 'Password'),
-                            ),
-                            MaterialButton(
-                              child: const Text('Login'),
-                              elevation: 8.0,
-                              onPressed: () => _login(context),
-                            ),
-                            Row(
-                              children: <Widget>[
-                                const Text('Dont\' have an account?'),
-                                MaterialButton(
-                                  child: const Text('Create Account'),
-                                  onPressed: () => Navigator.pushNamed(context, '/signup'),
-                                )
-                              ],
-                            )
-                          ],
-                        )
                       )
-                  )
+                    )
+                  ),
+                  SizedBox(height: ScreenUtil.getInstance().setHeight(40)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      InkWell(
+                        child: Container(
+                          width: ScreenUtil.getInstance().setWidth(300),
+                          height: ScreenUtil.getInstance().setHeight(100),
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xFF17ead9),
+                                Color(0xFF6078ea)
+                              ]),
+                              borderRadius: BorderRadius.circular(6.0),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color(0xFF6078ea).withOpacity(.3),
+                                    offset: Offset(0.0, 8.0),
+                                    blurRadius: 8.0)
+                              ]),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => Navigator.pushNamed(context, '/signup'),
+                              child: Center(
+                                child: Text("Create Account",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Poppins-Bold",
+                                        fontSize: 16,
+                                        letterSpacing: 1.0)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        child: Container(
+                          width: ScreenUtil.getInstance().setWidth(300),
+                          height: ScreenUtil.getInstance().setHeight(100),
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xFF17ead9),
+                                Color(0xFF6078ea)
+                              ]),
+                              borderRadius: BorderRadius.circular(6.0),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color(0xFF6078ea).withOpacity(.3),
+                                    offset: Offset(0.0, 8.0),
+                                    blurRadius: 8.0)
+                              ]),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => _login(context),
+                              child: Center(
+                                child: Text("SIGNIN",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Poppins-Bold",
+                                        fontSize: 18,
+                                        letterSpacing: 1.0)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                
                 ],
               ),
             ),
