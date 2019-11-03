@@ -65,7 +65,6 @@ class _ViewArticlesScreenState extends State<ViewArticlesScreen> {
       body: ListView.builder(
         itemCount: _articles.length,
         itemBuilder: (BuildContext ctxt, int i) {
-          print(_articles.length);
           return FutureBuilder(
             future: _articles[i],
             builder: (ctxt, snapshot) {
