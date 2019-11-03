@@ -204,8 +204,8 @@ class _SignupState extends State<Signup> {
                           height: ScreenUtil.getInstance().setHeight(100),
                           decoration: BoxDecoration(
                               gradient: LinearGradient(colors: [
-                                Color(0xFF17ead9),
-                                Color(0xFF6078ea)
+                                Color(0xFFFF0000),
+                                Color(0xFFA13D2D)
                               ]),
                               borderRadius: BorderRadius.circular(6.0),
                               boxShadow: [
@@ -238,9 +238,9 @@ class _SignupState extends State<Signup> {
                           height: ScreenUtil.getInstance().setHeight(100),
                           decoration: BoxDecoration(
                               gradient: LinearGradient(colors: [
-                                Color(0xFF17ead9),
-                                Color(0xFF6078ea)
-                              ]),
+                              Color(0xFFFF0000),
+                              Color(0xFFA13D2D)
+                            ]),
                               borderRadius: BorderRadius.circular(6.0),
                               boxShadow: [
                                 BoxShadow(

@@ -110,7 +110,9 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
                             shrinkWrap: true,
                             children: snapshot.data.documents.map((DocumentSnapshot document) {
                               return ListTile(
-                                onTap: () => _addToWardrobe(document.documentID),
+                                onTap: () => {
+                                _addToWardrobe(document.documentID),
+                                },
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(document["imageUrl"]) == null ? 
                                   NetworkImage(document["imageUrl"]) : 
