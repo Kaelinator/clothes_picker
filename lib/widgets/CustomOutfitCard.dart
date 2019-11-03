@@ -10,11 +10,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 class CustomFitCard extends StatefulWidget {
 
-  Future<List<Outfit>> fits;
+  final Future<List<Outfit>> fits;
 
   CustomFitCard(this.fits);
 
-  CustomFitCard.generate();
+  CustomFitCard.generate() : fits = null;
 
   @override
   _CustomFitCardState createState() => _CustomFitCardState(fits);
@@ -26,9 +26,19 @@ class _CustomFitCardState extends State<CustomFitCard> {
   Future<List<Outfit>> _fits;
 
   _CustomFitCardState(Future<List<Outfit>> fits) {
-    if (fits == null)
-      _fits = _generateOutfits(5);
     _fits = fits;
+  }
+
+  @override
+  void initState() {
+    print(Firestore.instance.collection('articles'));
+
+    if (_fits == null)
+      setState(() {
+        _fits = _generateOutfits(15);
+      });
+
+    super.initState();
   }
 
   Future<List<Outfit>> _generateOutfits(int n) async {
@@ -75,10 +85,13 @@ class _CustomFitCardState extends State<CustomFitCard> {
   Widget build(BuildContext context) {
 
     return FutureBuilder(
-      future: _generateOutfits(5),
+      future: _fits,
         builder: (ctxt, snapshot) {
           if (snapshot.connectionState != ConnectionState.done || snapshot.data == null)
             return CircularProgressIndicator();
+
+          if (snapshot.data.length == 0)
+            return Container(child: const Text('Add clothes to get some outfits!'));
 
           return CarouselSlider(
             height: 200.0,
